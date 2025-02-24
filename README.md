@@ -53,9 +53,9 @@ The bytes of `buf` are now as follows (Little Endian):
 ```swift
 // Read as Integer
 let n1: UInt8 = box.getInt(offset: 0)
-let n2: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
-let n3 UInt32 = box.getInt(offset: 2, intWidth: .bit24)
-let n4: Int = box.getInt(offset: 5, intWidth: .bit40)
+let n2: UInt16 = box.getInt(offset: 1, intWidth: .bit16)
+let n3 UInt32 = box.getInt(offset: 3, intWidth: .bit24)
+let n4: Int = box.getInt(offset: 6, intWidth: .bit40)
 ```
 
 ### Integer Arrays  
@@ -263,9 +263,9 @@ print(box.count) // 输出：11
 ```swift
 // 读取整数
 let n1: UInt8 = box.getInt(offset: 0)
-let n2: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
-let n3 UInt32 = box.getInt(offset: 2, intWidth: .bit24)
-let n4: Int = box.getInt(offset: 5, intWidth: .bit40)
+let n2: UInt16 = box.getInt(offset: 1, intWidth: .bit16)
+let n3 UInt32 = box.getInt(offset: 3, intWidth: .bit24)
+let n4: Int = box.getInt(offset: 6, intWidth: .bit40)
 ```
 
 ### 整型数组  
