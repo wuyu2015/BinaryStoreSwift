@@ -19,13 +19,13 @@ let box = BinaryStore.Box(bytes: &buf)
 
 ```swift
 // Store the number using 2 bytes
-box.setInt(65535, offset: 0, itemWidth: .bit16)
+box.setInt(65535, offset: 0, intWidth: .bit16)
 
 // Store 65536 using 3 bytes
-box.setInt(65536, offset: 2, itemWidth: .bit24)
+box.setInt(65536, offset: 2, intWidth: .bit24)
 
 // Store a mainland China phone number using 5 bytes
-box.setInt(13888888888, offset: 5, itemWidth: .bit40)
+box.setInt(13888888888, offset: 5, intWidth: .bit40)
 
 // A total of 10 bytes are used
 print(box.count) // Output: 10
@@ -48,9 +48,9 @@ The bytes of `buf` are now as follows (Little Endian):
 
 ```swift
 // Read as Integer
-let n1: UInt16 = box.getInt(offset: 0, itemWidth: .bit16)
-let n2: UInt32 = box.getInt(offset: 2, itemWidth: .bit24)
-let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
+let n1: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
+let n2: UInt32 = box.getInt(offset: 2, intWidth: .bit24)
+let n3: Int = box.getInt(offset: 5, intWidth: .bit40)
 ```
 
 ### Integer Arrays  
@@ -60,7 +60,7 @@ let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
 let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]
 
 // Write the array at an offset of 64K, and store this offset at position 10
-box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
+box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: .bit8)
 
 // Total bytes: 1024 * 64 + arr.count bytes, 
 // i.e., 65536 + 8 = 65544
@@ -90,19 +90,19 @@ The bytes of `buf` are now as follows (Little Endian):
 
 ```swift
 // Now, we read the array using the index value
-let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
+let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, arrayWidth: .bit8, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
 print(result1)
 
 // Read with [UInt8], negative numbers will be converted to the corresponding unsigned values
-let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
+let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, arrayWidth: .bit8, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 print(result2)
 
 // Read with [UInt32], note that it has the same effect as [UInt8] because we used the .bit8 tag
-let result3: [UInt]32 = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
+let result3: [UInt]32 = box.getIntArray(index: 10, offsetWidth: .bit32, arrayWidth: .bit8, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 print(result3)
@@ -138,13 +138,13 @@ print(s2)
 let arr = ["a", "b", "c", "Hello world!"]
 
 // Write the string array at offset 64K, storing the index at position 0
-box.setStringArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, countWidth: .bit24, countWidth: .bit24)
+box.setStringArray(arr, index: 0, offset: 64 * 1024, arrayWidth: .bit8, stringWidth: .bit8)
 
 // Retrieve the string array using the index
-_ = getStringArray(index: 0, offsetWidth: .bit32, countWidth: .bit24, countWidth: .bit24)
+_ = getStringArray(index: 0, offsetWidth: .bit32, arrayWidth: .bit8, stringWidth: .bit8)
 
 // Or retrieve it directly using the offset at 64K
-_ = getString(64 * 1024, 100, countWidth: .bit24, countWidth: .bit8)
+_ = getString(64 * 1024, arrayWidth: .bit8, countWidth: .bit8)
 ```
 
 ### Ranges  
@@ -224,13 +224,13 @@ let box = BinaryStore.Box(bytes: &buf)
 
 ```swift
 // 用 2 字节存储
-box.setInt(65535, offset: 0, itemWidth: .bit16)
+box.setInt(65535, offset: 0, intWidth: .bit16)
 
 // 用 3 字节存储 65536
-box.setInt(65536, offset: 2, itemWidth: .bit24)
+box.setInt(65536, offset: 2, intWidth: .bit24)
 
 // 用 5 字节存储中国大陆手机号码
-box.setInt(13888888888, offset: 5, itemWidth: .bit40)
+box.setInt(13888888888, offset: 5, intWidth: .bit40)
 
 // 总用了 10 字节
 print(box.count) // 输出：10
@@ -253,9 +253,9 @@ print(box.count) // 输出：10
 
 ```swift
 // 读取整数
-let n1: UInt16 = box.getInt(offset: 0, itemWidth: .bit16)
-let n2: UInt32 = box.getInt(offset: 2, itemWidth: .bit24)
-let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
+let n1: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
+let n2: UInt32 = box.getInt(offset: 2, intWidth: .bit24)
+let n3: Int = box.getInt(offset: 5, intWidth: .bit40)
 ```
 
 ### 整型数组  
@@ -265,7 +265,7 @@ let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
 let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]  
 
 // 在 64K 偏移处写入数组，该偏移量则存储在位置 10
-box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
+box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: .bit8)
 
 // 总字节：1024 * 64 + arr.count 字节，
 // 即 65536 + 8 = 65544
@@ -295,19 +295,19 @@ print(box.count) // 输出：65544
 
 ```swift
 // 现在，我们使用索引值读取数组
-let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
+let result1: [Int] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
 print(result1)
 
 // 用 [UInt8] 读取，负数会转为对应的无符号值
-let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
+let result2: [UInt8] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 print(result2)
 
 // 用 [UInt32] 读取，注意它的效果和 [UInt8] 相同，因为我们使用了 `.bit8` 标记
-let result3: [UInt32] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
+let result3: [UInt32] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 print(result3)
@@ -342,13 +342,13 @@ print(s2)
 let arr = ["a", "b", "c", "Hello world!"]
 
 // 在 64K 偏移处写入字符串数组，索引存储在 0 位置
-box.setStringArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, countWidth: .bit24)
+box.setStringArray(arr, index: 0, offset: 64 * 1024, arrayWidth: .bit24)
 
 // 通过索引取出字符串数组
-_ = getStringArray(index: 0, offsetWidth: .bit32, countWidth: .bit24, countWidth: .bit24)
+_ = getStringArray(index: 0, offsetWidth: .bit32, arrayWidth: .bit24)
 
 // 或者直接通过偏移值（64K 处）取出字符串数组
-_ = getString(64 * 1024, 100, countWidth: .bit24, countWidth: .bit8)
+_ = getString(64 * 1024, 100, arrayWidth: .bit8)
 ```
 
 ### Range  
