@@ -12,12 +12,12 @@ final class BoxStringTests: XCTestCase {
         for _ in 0..<25 {
             let s = randomString(maxBytes: Int.random(in: 0..<128))
             let off = Int.random(in: 0...1024)
-            let sizeWidth = BinaryStore.BitWidth(rawValue: Int.random(in: 1...8))!
+            let stringWidth = BinaryStore.BitWidth(rawValue: Int.random(in: 1...8))!
             let encoding = randomEncoding()
             
-            let sz = box.setString(s, offset: off, sizeWidth: sizeWidth, encoding: encoding)
-            XCTAssertEqual(sz - sizeWidth.rawValue, encoding == .utf8 ? s.utf8.count : s.utf16.count * 2)
-            XCTAssertEqual(box.getString(off, sizeWidth: sizeWidth, encoding: encoding), s)
+            let sz = box.setString(s, offset: off, stringWidth: stringWidth, encoding: encoding)
+            XCTAssertEqual(sz - stringWidth.rawValue, encoding == .utf8 ? s.utf8.count : s.utf16.count * 2)
+            XCTAssertEqual(box.getString(offset: off, stringWidth: stringWidth, encoding: encoding), s)
         }
     }
 }

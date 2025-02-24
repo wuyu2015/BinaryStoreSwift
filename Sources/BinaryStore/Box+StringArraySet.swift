@@ -6,12 +6,12 @@ extension BinaryStore.Box {
     // data header:
     //   countWidth: array length
     // data:
-    //   sizeWidth: string size
-    //   [UInt8]: string
+    //   stringWidth: capacity of string
+    //   [UInt8]: string data
     //   ...
     //   ...
     // return: byte size of the sum of data header bytes and string array bytes
-    public func setStringArray(_ strArr: [String], offset: Int, offset0: Int = 0, countWidth: BinaryStore.BitWidth, sizeWidth: BinaryStore.BitWidth, encoding: String.Encoding = .utf8) -> [Int] {
+    public func setStringArray(_ strArr: [String], offset: Int, offset0: Int = 0, countWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [Int] {
         let len = strArr.count
         if len == 0 {
             return []
@@ -26,13 +26,13 @@ extension BinaryStore.Box {
                 offsets.append(off - offset0)
                 let codes = s.utf16
                 
-                let sz = off + sizeWidth.rawValue + (codes.count << 1)
+                let sz = off + stringWidth.rawValue + (codes.count << 1)
                 if sz > p.pointee.count {
                     p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
                 }
                 
-                setInt(codes.count << 1, offset: off, itemWidth: sizeWidth)
-                off += sizeWidth.rawValue
+                setInt(codes.count << 1, offset: off, itemWidth: stringWidth)
+                off += stringWidth.rawValue
                 for code in codes {
                     p.pointee[off] = UInt8(truncatingIfNeeded: code >> 8)
                     p.pointee[off + 1] = UInt8(truncatingIfNeeded: code)
@@ -44,13 +44,13 @@ extension BinaryStore.Box {
                 offsets.append(off)
                 let codes = s.utf8
                 
-                let sz = off + sizeWidth.rawValue + codes.count
+                let sz = off + stringWidth.rawValue + codes.count
                 if sz > p.pointee.count {
                     p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
                 }
                 
-                setInt(codes.count, offset: off, itemWidth: sizeWidth)
-                off += sizeWidth.rawValue
+                setInt(codes.count, offset: off, itemWidth: stringWidth)
+                off += stringWidth.rawValue
                 for code in codes {
                     p.pointee[off] = code
                     off += 1

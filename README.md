@@ -10,7 +10,7 @@
 import BinaryStore
 
 // `buf` can be any collection of UInt8,
-// such as Array<UInt8>, Data, UnsafeMutablePointer<UInt8>, or UnsafeBufferPointer<UInt8> …
+// for example: Array<UInt8>, Data, UnsafeMutablePointer<UInt8>, or UnsafeBufferPointer<UInt8> …
 var buf: [UInt8] = []
 let box = BinaryStore.Box(bytes: &buf)
 ```
@@ -60,7 +60,7 @@ let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
 let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]
 
 // Write the array at an offset of 64K, and store this offset at position 10
-box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
 
 // Total bytes: 1024 * 64 + arr.count bytes, 
 // i.e., 65536 + 8 = 65544
@@ -90,15 +90,15 @@ The bytes of `buf` are now as follows (Little Endian):
 
 ```swift
 // Now, we read the array using the index value
-let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
 print(result1) // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
 
 // Read with [UInt8], negative numbers will be converted to the corresponding unsigned values
-let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
 print(result2) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 
 // Read with [UInt32], note that it has the same effect as [UInt8] because we used the .bit8 tag
-let result3: [UInt]32 = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+let result3: [UInt]32 = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
 print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 ```
 
@@ -111,13 +111,19 @@ print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 let s = "Hello world!"
 
 // Write the string starting at offset 64K, storing the index at position 0
-box.setString(s, index: 0, offset: 64 * 1024, offsetWidth: .bit32, sizeWidth: .bit8)
+box.setString(s, index: 0, offset: 64 * 1024)
 
 // Retrieve the string using the index
-_ = getString(index: 0, offsetWidth: .bit32, sizeWidth: .bit8)
+let s1 = getString(index: 0)
+
+// Output: Hello world!
+print(s1)  
 
 // Or retrieve it using the offset directly at 128K
-_ = getString(64 * 1024, 100, sizeWidth: .bit8)
+let s2 = getString(64 * 1024)
+
+// Output: Hello world!
+print(s2)
 ```
 
 ### String Arrays  
@@ -126,13 +132,13 @@ _ = getString(64 * 1024, 100, sizeWidth: .bit8)
 let arr = ["a", "b", "c", "Hello world!"]
 
 // Write the string array at offset 64K, storing the index at position 0
-box.setStringArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, sizeWidth: .bit24, countWidth: .bit24)
+box.setStringArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, countWidth: .bit24, countWidth: .bit24)
 
 // Retrieve the string array using the index
-_ = getStringArray(index: 0, offsetWidth: .bit32, sizeWidth: .bit24, countWidth: .bit24)
+_ = getStringArray(index: 0, offsetWidth: .bit32, countWidth: .bit24, countWidth: .bit24)
 
 // Or retrieve it directly using the offset at 64K
-_ = getString(64 * 1024, 100, countWidth: .bit24, sizeWidth: .bit8)
+_ = getString(64 * 1024, 100, countWidth: .bit24, countWidth: .bit8)
 ```
 
 ### Ranges  
@@ -160,10 +166,10 @@ let arr: [Range<Int>] = [
 ]
 
 // Store the range array
-box.setRangeArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, sizeWidth: .bit32, itemWidth: .bit32)
+box.setRangeArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, countWidth: .bit32, itemWidth: .bit32)
 
 // Retrieve the range array using the index
-let result: [Range<Int>] = getRangeArray(index: 0, offsetWidth: .bit32, sizeWidth: .bit32, itemWidth: .bit32)
+let result: [Range<Int>] = getRangeArray(index: 0, offsetWidth: .bit32, countWidth: .bit32, itemWidth: .bit32)
 ```
 
 ## Installation  
@@ -203,7 +209,7 @@ This project is licensed under the MIT License.
 import BinaryStore
 
 // `buf` 可以是任意的 UInt8 集合，
-// 例如 Array<UInt8>, Data, UnsafeMutablePointer<UInt8>, UnsafeBufferPointer<UInt8>…
+// 例如：Array<UInt8>, Data, UnsafeMutablePointer<UInt8>, UnsafeBufferPointer<UInt8>…
 var buf: [UInt8] = []
 let box = BinaryStore.Box(bytes: &buf)
 ```
@@ -253,7 +259,7 @@ let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
 let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]  
 
 // 在 64K 偏移处写入数组，该偏移量则存储在位置 10
-box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
 
 // 总字节：1024 * 64 + arr.count 字节，
 // 即 65536 + 8 = 65544
@@ -283,15 +289,15 @@ print(box.count) // 输出：65544
 
 ```swift
 // 现在，我们使用索引值读取数组
-let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
 print(result1) // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
 
 // 用 [UInt8] 读取，负数会转为对应的无符号值
-let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
 print(result2) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 
 // 用 [UInt32] 读取，注意它的效果和 [UInt8] 相同，因为我们使用了 `.bit8` 标记
-let result3: [UInt32] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+let result3: [UInt32] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
 print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 ```
 
@@ -303,13 +309,19 @@ print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 let s = "Hello world!"
 
 // 在 64K 偏移处写入字符串，索引存储在 0 位置
-box.setString(s, index: 0, offset: 64 * 1024, offsetWidth: .bit32, sizeWidth: .bit8)
+box.setString(s, index: 0, offset: 64 * 1024)
 
 // 通过索引取出字符串
-_ = getString(index: 0, offsetWidth: .bit32, sizeWidth: .bit8)
+let s1 = getString(index: 0))
+
+// 输出：Hello world!
+print(s1)
 
 // 或者直接通过偏移值（128K 处）取出字符串
-_ = getString(64 * 1024, 100, sizeWidth: .bit8)
+print(getString(offset: 64 * 1024))
+
+// 输出：Hello world!
+print(s2)
 ```
 
 ### 字符串数组  
@@ -318,13 +330,13 @@ _ = getString(64 * 1024, 100, sizeWidth: .bit8)
 let arr = ["a", "b", "c", "Hello world!"]
 
 // 在 64K 偏移处写入字符串数组，索引存储在 0 位置
-box.setStringArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, sizeWidth: .bit24, countWidth: .bit24)
+box.setStringArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, countWidth: .bit24)
 
 // 通过索引取出字符串数组
-_ = getStringArray(index: 0, offsetWidth: .bit32, sizeWidth: .bit24, countWidth: .bit24)
+_ = getStringArray(index: 0, offsetWidth: .bit32, countWidth: .bit24, countWidth: .bit24)
 
 // 或者直接通过偏移值（64K 处）取出字符串数组
-_ = getString(64 * 1024, 100, countWidth: .bit24, sizeWidth: .bit8)
+_ = getString(64 * 1024, 100, countWidth: .bit24, countWidth: .bit8)
 ```
 
 ### Range  
@@ -352,10 +364,10 @@ let arr: [Range<Int>] = [
 ]
 
 // 存储 range 数组
-box.setRangeArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, sizeWidth: .bit32, itemWidth: .bit32)
+box.setRangeArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, countWidth: .bit32, itemWidth: .bit32)
 
 // 通过索引取出 range 数组
-let result: [Range<Int>] = getRangeArray(index: 0, offsetWidth: .bit32, sizeWidth: .bit32, itemWidth: .bit32)
+let result: [Range<Int>] = getRangeArray(index: 0, offsetWidth: .bit32, countWidth: .bit32, itemWidth: .bit32)
 ```
 
 ## 安装  

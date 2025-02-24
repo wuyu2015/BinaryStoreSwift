@@ -4,11 +4,11 @@ extension BinaryStore.Box {
     
     /// Set String At Offset
     // data:
-    //   sizeWidth: size of string
-    //   [UInt8]: string
+    //   stringWidth: capacity of string
+    //   [UInt8]: string data
     // return: total byte size
-    public func setString(_ s: String, offset: Int, sizeWidth: BinaryStore.BitWidth, encoding: String.Encoding = .utf8) -> Int {
-        var off = offset + sizeWidth.rawValue
+    public func setString(_ s: String, offset: Int, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> Int {
+        var off = offset + stringWidth.rawValue
         if encoding == .utf16 {
             let codes = s.utf16
             let strSz = codes.count << 1
@@ -18,7 +18,7 @@ extension BinaryStore.Box {
                 p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
             }
 
-            setInt(strSz, offset: offset, itemWidth: sizeWidth)
+            setInt(strSz, offset: offset, itemWidth: stringWidth)
             for code in codes {
                 p.pointee[off] = UInt8(truncatingIfNeeded: code >> 8)
                 p.pointee[off + 1] = UInt8(truncatingIfNeeded: code)
@@ -33,7 +33,7 @@ extension BinaryStore.Box {
                 p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
             }
 
-            setInt(strSz, offset: offset, itemWidth: sizeWidth)
+            setInt(strSz, offset: offset, itemWidth: stringWidth)
             for code in codes {
                 p.pointee[off] = code
                 off += 1

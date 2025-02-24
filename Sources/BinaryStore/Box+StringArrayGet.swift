@@ -6,11 +6,11 @@ extension BinaryStore.Box {
     // data header:
     //   countWidth: array length
     // data:
-    //   sizeWidth: string size
-    //   [UInt8]: string
+    //   stringWidth: capacity of string
+    //   [UInt8]: string data
     //   ...
     //   ...
-    public func getStringArray(_ offset: Int, countWidth: BinaryStore.BitWidth, sizeWidth: BinaryStore.BitWidth, encoding: String.Encoding = .utf8) -> [String] {
+    public func getStringArray(offset: Int, countWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [String] {
         let arrayLen: UInt64 = getInt(offset: offset, itemWidth: countWidth)
         if arrayLen == 0 {
             return []
@@ -19,8 +19,8 @@ extension BinaryStore.Box {
         strArr.reserveCapacity(Int(arrayLen))
         var off = offset + countWidth.rawValue
         for _ in 0..<arrayLen {
-            let wordSize: UInt64 = getInt(offset: off, itemWidth: sizeWidth)
-            off += sizeWidth.rawValue
+            let wordSize: UInt64 = getInt(offset: off, itemWidth: stringWidth)
+            off += stringWidth.rawValue
             if wordSize > 0 {
                 if let s = String(bytes: p.pointee[off..<off + Int(wordSize)], encoding: encoding) { // read string from offset(i) to the end(i + wordSize)
                     strArr.append(s)

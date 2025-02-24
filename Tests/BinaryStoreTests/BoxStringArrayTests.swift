@@ -20,8 +20,8 @@ final class BoxStringArrayTests: XCTestCase {
                 arr.append(randomString(maxBytes: Int.random(in: 0..<128)))
             }
             
-            _ = box.setStringArray(arr, offset: off, countWidth: countWidth, sizeWidth: sizeWidth, encoding: encoding)
-            XCTAssertEqual(box.getStringArray(off, countWidth: countWidth, sizeWidth: sizeWidth, encoding: encoding), arr)
+            _ = box.setStringArray(arr, offset: off, countWidth: countWidth, stringWidth: sizeWidth, encoding: encoding)
+            XCTAssertEqual(box.getStringArray(offset: off, countWidth: countWidth, stringWidth: sizeWidth, encoding: encoding), arr)
         }
     }
 }
