@@ -91,15 +91,21 @@ The bytes of `buf` are now as follows (Little Endian):
 ```swift
 // Now, we read the array using the index value
 let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
-print(result1) // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
+
+// Output: [1, 2, 3, 4, -1, -2, -3, -4]  
+print(result1)
 
 // Read with [UInt8], negative numbers will be converted to the corresponding unsigned values
 let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
-print(result2) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
+
+// Output: [1, 2, 3, 4, 255, 254, 253, 252]
+print(result2)
 
 // Read with [UInt32], note that it has the same effect as [UInt8] because we used the .bit8 tag
 let result3: [UInt]32 = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
-print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
+
+// Output: [1, 2, 3, 4, 255, 254, 253, 252]
+print(result3)
 ```
 
 > Note: Ensuring the width types match is critical. Using different width types flexibly will make it difficult for others to incorrectly parse your binary files.
@@ -290,15 +296,21 @@ print(box.count) // 输出：65544
 ```swift
 // 现在，我们使用索引值读取数组
 let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
-print(result1) // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
+
+// Output: [1, 2, 3, 4, -1, -2, -3, -4]  
+print(result1)
 
 // 用 [UInt8] 读取，负数会转为对应的无符号值
 let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
-print(result2) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
+
+// Output: [1, 2, 3, 4, 255, 254, 253, 252]
+print(result2)
 
 // 用 [UInt32] 读取，注意它的效果和 [UInt8] 相同，因为我们使用了 `.bit8` 标记
 let result3: [UInt32] = box.getIntArray(index: 10, offsetWidth: .bit32, countWidth: .bit8, itemWidth: .bit8)
-print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
+
+// Output: [1, 2, 3, 4, 255, 254, 253, 252]
+print(result3)
 ```
 
 > 注意：确保宽度匹配至关重要，灵活使用不同宽度类型会让非法解析你二进制文件的人头疼。
