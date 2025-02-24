@@ -330,7 +330,7 @@ let s1 = getString(index: 0))
 print(s1)
 
 // 或者直接通过偏移值（128K 处）取出字符串
-print(getString(offset: 64 * 1024))
+let s2 = getString(offset: 64 * 1024)
 
 // 输出：Hello world!
 print(s2)
