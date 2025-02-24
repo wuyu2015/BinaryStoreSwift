@@ -91,17 +91,14 @@ The bytes of `buf` are now as follows (Little Endian):
 ```swift
 // Now, we read the array using the index value
 let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
-
 print(result1) // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
 
 // Read with [UInt8], negative numbers will be converted to the corresponding unsigned values
 let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
-
 print(result2) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 
-// Read with [UInt], note that it has the same effect as [UInt8] because we used the .bit8 tag
-let result3: [UInt] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
-
+// Read with [UInt32], note that it has the same effect as [UInt8] because we used the .bit8 tag
+let result3: [UInt]32 = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
 print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 ```
 
@@ -287,17 +284,14 @@ print(box.count) // 输出：65544
 ```swift
 // 现在，我们使用索引值读取数组
 let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
-
 print(result1) // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
 
 // 用 [UInt8] 读取，负数会转为对应的无符号值
 let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
-
 print(result2) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 
-// 用 [UInt] 读取，注意它的效果和 [UInt8] 相同，因为我们使用了 `.bit8` 标记
-let result3: [UInt] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
-
+// 用 [UInt32] 读取，注意它的效果和 [UInt8] 相同，因为我们使用了 `.bit8` 标记
+let result3: [UInt32] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
 print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 ```
 
