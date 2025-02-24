@@ -35,8 +35,8 @@ The bytes of `buf` are now as follows (Little Endian):
 
 | Index | Byte Value | Description           |
 |-------|--------------|----------------------|
-| 0       | 0x66          | 10086                    |
-| 1       | 0x27          |                               |
+| 0       | 0xFF          | 65535                    |
+| 1       | 0xFF          |                               |
 | 2       | 0x00          | 65536                    |
 | 3       | 0x00          |                               |
 | 4       | 0x01          |                               |
@@ -73,7 +73,7 @@ The bytes of `buf` are now as follows (Little Endian):
 |-----------|-------------|-------------------|
 | 0             | 0x0           | Unused             |
 | ...            | 0x0           | Unused             |
-| 10           | 0x00         | Offset: 6553      |
+| 10           | 0x00         | Offset: 65536    |
 | 11           | 0x00         |                          |
 | 12           | 0x00         |                          |
 | 13           | 0x01         |                          |
@@ -214,8 +214,8 @@ let box = BinaryStore.Box(bytes: &buf)
 ### 整型存储  
 
 ```swift
-// 用 2 字节存储一个奸商号码
-box.setInt(10086, offset: 0, itemWidth: .bit16)
+// 用 2 字节存储
+box.setInt(65535, offset: 0, itemWidth: .bit16)
 
 // 用 3 字节存储 65536
 box.setInt(65536, offset: 2, itemWidth: .bit24)
@@ -231,8 +231,8 @@ print(box.count) // 输出：10
 
 | 索引  | 字节值     | 说明                      |
 |-------|------------|----------------------|
-| 0       | 0x66        | 10086                   |
-| 1       | 0x27        |                              |
+| 0       | 0xFF        | 65535                   |
+| 1       | 0xFF        |                              |
 | 2       | 0x00        | 65536                   |
 | 3       | 0x00        |                              |
 | 4       | 0x01        |                              |
