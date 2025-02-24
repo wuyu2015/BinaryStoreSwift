@@ -56,14 +56,14 @@ let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
 ### Integer Arrays  
 
 ```swift
-// Define an array of type [Int8]
-let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4] 
+// Prepare data
+let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]
 
-// Write the array starting at offset 64K, with the index stored at position 10
+// Write the array at an offset of 64K, and store this offset at position 10
 box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
 
-// Total bytes: 1024 * 64 + arr.count
-// 65536 + 8 = 65544
+// Total bytes: 1024 * 64 + arr.count bytes, 
+// i.e., 65536 + 8 = 65544
 print(box.count) // Output: 65544
 ```
 
@@ -249,10 +249,10 @@ let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
 ### 整型数组  
 
 ```swift
-// 定义 [Int8] 类型的数组
+// 准备数据
 let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]  
 
-// 在 64K 偏移处写入数组数据，索引存储在位置 10
+// 在 64K 偏移处写入数组，该偏移量则存储在位置 10
 box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
 
 // 总字节：1024 * 64 + arr.count 字节，
