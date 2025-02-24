@@ -7,7 +7,7 @@ final class BoxRangeTests: XCTestCase {
     func testInt8() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit8
+        let rangeWidth = BinaryStore.BitWidth.bit8
         
         for _ in 0..<25 {
             let n = Int8.random(in: Int8.min...Int8.max)
@@ -15,22 +15,22 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result8: Range<Int8> = box.getRange(off, itemWidth: itemWidth)
+            let result8: Range<Int8> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result8, n..<m)
 
-            let result16: Range<Int16> = box.getRange(off, itemWidth: itemWidth)
+            let result16: Range<Int16> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result16, Int16(truncatingIfNeeded: n)..<Int16(truncatingIfNeeded: m))
 
-            let result32: Range<Int32> = box.getRange(off, itemWidth: itemWidth)
+            let result32: Range<Int32> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result32, Int32(truncatingIfNeeded: n)..<Int32(truncatingIfNeeded: m))
 
-            let result64: Range<Int64> = box.getRange(off, itemWidth: itemWidth)
+            let result64: Range<Int64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64, Int64(truncatingIfNeeded: n)..<Int64(truncatingIfNeeded: m))
 
-            let result: Range<Int> = box.getRange(off, itemWidth: itemWidth)
+            let result: Range<Int> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result, Int(truncatingIfNeeded: n)..<Int(truncatingIfNeeded: m))
         }
     }
@@ -38,7 +38,7 @@ final class BoxRangeTests: XCTestCase {
     func testInt8u() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit8
+        let rangeWidth = BinaryStore.BitWidth.bit8
         
         for _ in 0..<25 {
             let n = UInt8.random(in: UInt8.min...UInt8.max)
@@ -46,22 +46,22 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result8u: Range<UInt8> = box.getRange(off, itemWidth: itemWidth)
+            let result8u: Range<UInt8> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result8u, n..<m)
             
-            let result16u: Range<UInt16> = box.getRange(off, itemWidth: itemWidth)
+            let result16u: Range<UInt16> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result16u, UInt16(n)..<UInt16(m))
             
-            let result32u: Range<UInt32> = box.getRange(off, itemWidth: itemWidth)
+            let result32u: Range<UInt32> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result32u, UInt32(n)..<UInt32(m))
             
-            let result64u: Range<UInt64> = box.getRange(off, itemWidth: itemWidth)
+            let result64u: Range<UInt64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64u, UInt64(n)..<UInt64(m))
             
-            let resultu: Range<UInt> = box.getRange(off, itemWidth: itemWidth)
+            let resultu: Range<UInt> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(resultu, UInt(n)..<UInt(m))
         }
     }
@@ -69,7 +69,7 @@ final class BoxRangeTests: XCTestCase {
     func testInt16() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit16
+        let rangeWidth = BinaryStore.BitWidth.bit16
         
         for _ in 0..<25 {
             let n = Int16.random(in: Int16.min...Int16.max)
@@ -77,19 +77,19 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result16: Range<Int16> = box.getRange(off, itemWidth: itemWidth)
+            let result16: Range<Int16> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result16, n..<m)
             
-            let result32: Range<Int32> = box.getRange(off, itemWidth: itemWidth)
+            let result32: Range<Int32> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result32, Int32(truncatingIfNeeded: n)..<Int32(truncatingIfNeeded: m))
             
-            let result64: Range<Int64> = box.getRange(off, itemWidth: itemWidth)
+            let result64: Range<Int64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64, Int64(truncatingIfNeeded: n)..<Int64(truncatingIfNeeded: m))
             
-            let result: Range<Int> = box.getRange(off, itemWidth: itemWidth)
+            let result: Range<Int> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result, Int(truncatingIfNeeded: n)..<Int(truncatingIfNeeded: m))
         }
     }
@@ -97,7 +97,7 @@ final class BoxRangeTests: XCTestCase {
     func testInt16u() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit16
+        let rangeWidth = BinaryStore.BitWidth.bit16
         
         for _ in 0..<25 {
             let n = UInt16.random(in: UInt16.min...UInt16.max)
@@ -105,19 +105,19 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result16u: Range<UInt16> = box.getRange(off, itemWidth: itemWidth)
+            let result16u: Range<UInt16> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result16u, n..<m)
             
-            let result32u: Range<UInt32> = box.getRange(off, itemWidth: itemWidth)
+            let result32u: Range<UInt32> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result32u, UInt32(n)..<UInt32(m))
             
-            let result64u: Range<UInt64> = box.getRange(off, itemWidth: itemWidth)
+            let result64u: Range<UInt64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64u, UInt64(n)..<UInt64(m))
             
-            let resultu: Range<UInt> = box.getRange(off, itemWidth: itemWidth)
+            let resultu: Range<UInt> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(resultu, UInt(n)..<UInt(m))
         }
     }
@@ -125,7 +125,7 @@ final class BoxRangeTests: XCTestCase {
     func testInt32() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit32
+        let rangeWidth = BinaryStore.BitWidth.bit32
         
         for _ in 0..<25 {
             let n = Int32.random(in: Int32.min...Int32.max)
@@ -133,16 +133,16 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result32: Range<Int32> = box.getRange(off, itemWidth: itemWidth)
+            let result32: Range<Int32> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result32, n..<m)
             
-            let result64: Range<Int64> = box.getRange(off, itemWidth: itemWidth)
+            let result64: Range<Int64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64, Int64(truncatingIfNeeded: n)..<Int64(truncatingIfNeeded: m))
             
-            let result: Range<Int> = box.getRange(off, itemWidth: itemWidth)
+            let result: Range<Int> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result, Int(truncatingIfNeeded: n)..<Int(truncatingIfNeeded: m))
         }
     }
@@ -150,7 +150,7 @@ final class BoxRangeTests: XCTestCase {
     func testInt32u() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit32
+        let rangeWidth = BinaryStore.BitWidth.bit32
         
         for _ in 0..<25 {
             let n = UInt32.random(in: UInt32.min...UInt32.max)
@@ -158,16 +158,16 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result32u: Range<UInt32> = box.getRange(off, itemWidth: itemWidth)
+            let result32u: Range<UInt32> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result32u, n..<m)
             
-            let result64u: Range<UInt64> = box.getRange(off, itemWidth: itemWidth)
+            let result64u: Range<UInt64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64u, UInt64(n)..<UInt64(m))
             
-            let resultu: Range<UInt> = box.getRange(off, itemWidth: itemWidth)
+            let resultu: Range<UInt> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(resultu, UInt(n)..<UInt(m))
         }
     }
@@ -175,7 +175,7 @@ final class BoxRangeTests: XCTestCase {
     func testInt64() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit64
+        let rangeWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
             let n = Int64.random(in: Int64.min...Int64.max)
@@ -183,13 +183,13 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result64: Range<Int64> = box.getRange(off, itemWidth: itemWidth)
+            let result64: Range<Int64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64, n..<m)
             
-            let result: Range<Int> = box.getRange(off, itemWidth: itemWidth)
+            let result: Range<Int> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result, Int(truncatingIfNeeded: n)..<Int(truncatingIfNeeded: m))
         }
     }
@@ -197,7 +197,7 @@ final class BoxRangeTests: XCTestCase {
     func testInt64u() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit64
+        let rangeWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
             let n = UInt64.random(in: UInt64.min...UInt64.max)
@@ -205,13 +205,13 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result64u: Range<UInt64> = box.getRange(off, itemWidth: itemWidth)
+            let result64u: Range<UInt64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64u, n..<m)
             
-            let resultu: Range<UInt> = box.getRange(off, itemWidth: itemWidth)
+            let resultu: Range<UInt> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(resultu, UInt(n)..<UInt(m))
         }
     }
@@ -219,7 +219,7 @@ final class BoxRangeTests: XCTestCase {
     func testInt() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit64
+        let rangeWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
             let n = Int.random(in: Int.min...Int.max)
@@ -227,13 +227,13 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result64: Range<Int64> = box.getRange(off, itemWidth: itemWidth)
+            let result64: Range<Int64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64, Int64(truncatingIfNeeded: n)..<Int64(truncatingIfNeeded: m))
             
-            let result: Range<Int> = box.getRange(off, itemWidth: itemWidth)
+            let result: Range<Int> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result, n..<m)
         }
     }
@@ -241,7 +241,7 @@ final class BoxRangeTests: XCTestCase {
     func testIntU() {
         var buf = randomBuf(count: 100)
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit64
+        let rangeWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
             let n = UInt.random(in: UInt.min...UInt.max)
@@ -249,13 +249,13 @@ final class BoxRangeTests: XCTestCase {
             let range = n..<m
             
             let off = Int.random(in: 0...100)
-            let sz = box.setRange(range, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, itemWidth.rawValue * 2)
+            let sz = box.setRange(range, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, rangeWidth.rawValue * 2)
             
-            let result64u: Range<UInt64> = box.getRange(off, itemWidth: itemWidth)
+            let result64u: Range<UInt64> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(result64u, UInt64(n)..<UInt64(m))
             
-            let resultu: Range<UInt> = box.getRange(off, itemWidth: itemWidth)
+            let resultu: Range<UInt> = box.getRange(off, rangeWidth: rangeWidth)
             XCTAssertEqual(resultu, n..<m)
         }
     }

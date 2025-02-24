@@ -3,16 +3,16 @@ extension BinaryStore.Box {
     // MARK: Set Range Array At Offset
 
     // data:
-    //   itemWidth: lower
-    //   itemWidth: upper
+    //   rangeWidth: lower
+    //   rangeWidth: upper
     //   ...
     //   ...
     // return: byte size of the range<T> array
-    func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], offset: Int, itemWidth: BinaryStore.BitWidth) -> Int {
+    func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], offset: Int, rangeWidth: BinaryStore.BitWidth) -> Int {
         if rangeArr.isEmpty {
             return 0
         }
-        let sz = offset + (itemWidth.rawValue << 1) * rangeArr.count
+        let sz = offset + (rangeWidth.rawValue << 1) * rangeArr.count
         if sz > p.pointee.count {
             p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
         }
@@ -20,7 +20,7 @@ extension BinaryStore.Box {
         var i = offset
         switch T.bitWidth {
         case 8:
-            switch itemWidth {
+            switch rangeWidth {
             case .bit8:
                 for n in rangeArr {
                     withUnsafeBytes(of: n.lowerBound) {
@@ -171,7 +171,7 @@ extension BinaryStore.Box {
                 }
             }
         case 16:
-            switch itemWidth {
+            switch rangeWidth {
             case .bit8:
                 for n in rangeArr {
                     withUnsafeBytes(of: n.lowerBound) {
@@ -320,7 +320,7 @@ extension BinaryStore.Box {
                 }
             }
         case 32:
-            switch itemWidth {
+            switch rangeWidth {
             case .bit8:
                 for n in rangeArr {
                     withUnsafeBytes(of: n.lowerBound) {
@@ -465,7 +465,7 @@ extension BinaryStore.Box {
                 }
             }
         default:
-            switch itemWidth {
+            switch rangeWidth {
             case .bit8:
                 for n in rangeArr {
                     withUnsafeBytes(of: n.lowerBound) {

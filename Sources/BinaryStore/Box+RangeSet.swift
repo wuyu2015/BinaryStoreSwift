@@ -5,12 +5,12 @@ extension BinaryStore.Box {
     //   type: lower
     //   type: upper
     // return: the size of range
-    public func setRange<T: FixedWidthInteger>(_ range: Range<T>, offset i: Int, itemWidth: BinaryStore.BitWidth) -> Int {
+    public func setRange<T: FixedWidthInteger>(_ range: Range<T>, offset i: Int, rangeWidth: BinaryStore.BitWidth) -> Int {
 //        if range.isEmpty {
 //            return 0
 //        }
 
-        let sz = i + (itemWidth.rawValue << 1)
+        let sz = i + (rangeWidth.rawValue << 1)
         if sz > p.pointee.count {
             p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
         }
@@ -21,7 +21,7 @@ extension BinaryStore.Box {
         let pad1: UInt8 = n1 < 0 ? 0xFF : 0
         switch T.bitWidth {
         case 8:
-            switch itemWidth {
+            switch rangeWidth {
             case .bit8:
                 withUnsafeBytes(of: n0) {
                     p.pointee[i] = $0[0]
@@ -144,7 +144,7 @@ extension BinaryStore.Box {
                 p.pointee[i + 15] = pad1
             }
         case 16:
-            switch itemWidth {
+            switch rangeWidth {
             case .bit8:
                 withUnsafeBytes(of: n0) {
                     p.pointee[i] = $0[0]
@@ -265,7 +265,7 @@ extension BinaryStore.Box {
                 p.pointee[i + 15] = pad1
             }
         case 32:
-            switch itemWidth {
+            switch rangeWidth {
             case .bit8:
                 withUnsafeBytes(of: n0) {
                     p.pointee[i] = $0[0]
@@ -380,7 +380,7 @@ extension BinaryStore.Box {
                 p.pointee[i + 15] = pad1
             }
         default:
-            switch itemWidth {
+            switch rangeWidth {
             case .bit8:
                 withUnsafeBytes(of: n0) {
                     p.pointee[i] = $0[0]
@@ -495,6 +495,6 @@ extension BinaryStore.Box {
                 }
             }
         }
-        return itemWidth.rawValue << 1
+        return rangeWidth.rawValue << 1
     }
 }

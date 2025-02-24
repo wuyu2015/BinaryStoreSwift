@@ -4,29 +4,29 @@ extension BinaryStore.Box {
 
     // head:
     //   offsetWidth: offset
-    //   sizeWidth: size
-    public func getRangeArray<T: FixedWidthInteger>(index i: Int, offsetWidth: BinaryStore.BitWidth, sizeWidth: BinaryStore.BitWidth, itemWidth: BinaryStore.BitWidth) -> [Range<T>] {
+    //   byteWidth: count of data bytes
+    public func getRangeArray<T: FixedWidthInteger>(index i: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32, rangeWidth: BinaryStore.BitWidth) -> [Range<T>] {
         let off: UInt64 = getInt(offset: i, intWidth: offsetWidth)
-        let sz: UInt64 = getInt(offset: i + offsetWidth.rawValue, intWidth: sizeWidth)
-        return getRangeArray(Int(off)..<Int(off + sz), itemWidth: itemWidth)
+        let sz: UInt64 = getInt(offset: i + offsetWidth.rawValue, intWidth: byteWidth)
+        return getRangeArray(Int(off)..<Int(off + sz), rangeWidth: rangeWidth)
     }
     
     // head:
     //   offsetWidth: offset
-    //   sizeWidth: size
+    //   byteWidth: size
     // data:
-    //   itemWidth: lower
-    //   itemWidth: upper
+    //   rangeWidth: lower
+    //   rangeWidth: upper
     //   ...
     //   ...
     // return: byte size of the range<T> array
-    func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth, sizeWidth: BinaryStore.BitWidth, itemWidth: BinaryStore.BitWidth) -> Int {
+    func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32, rangeWidth: BinaryStore.BitWidth) -> Int {
         // set range array at offset
-        let sz = setRangeArray(rangeArr, offset: offset, itemWidth: itemWidth)
+        let sz = setRangeArray(rangeArr, offset: offset, rangeWidth: rangeWidth)
         // set offset in head
         setInt(sz == 0 ? 0 : offset - index0, offset: index, intWidth: offsetWidth)
         // set size in head
-        setInt(sz, offset: index + offsetWidth.rawValue, intWidth: sizeWidth)
+        setInt(sz, offset: index + offsetWidth.rawValue, intWidth: byteWidth)
         // return the size of range
         return sz
     }
@@ -35,13 +35,13 @@ extension BinaryStore.Box {
 
     // head:
     //   offsetWidth: offset
-    //   sizeWidth: size
+    //   byteWidth: size
     // data:
-    //   itemWidth: lower
-    //   itemWidth: upper
+    //   rangeWidth: lower
+    //   rangeWidth: upper
     //   ...
     //   ...
-    public func toRangeArray<T: FixedWidthInteger>(itemWidth: BinaryStore.BitWidth) -> [Range<T>] {
-        return getRangeArray(0..<p.pointee.count, itemWidth: itemWidth)
+    public func toRangeArray<T: FixedWidthInteger>(rangeWidth: BinaryStore.BitWidth) -> [Range<T>] {
+        return getRangeArray(0..<p.pointee.count, rangeWidth: rangeWidth)
     }
 }

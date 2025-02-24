@@ -7,7 +7,7 @@ final class BoxRangeArrayTests: XCTestCase {
     func testInt8() {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit8
+        let rangeWidth = BinaryStore.BitWidth.bit8
         
         for _ in 0..<25 {
             var arr: [Range<Int8>] = []
@@ -17,19 +17,19 @@ final class BoxRangeArrayTests: XCTestCase {
                 arr.append(n0..<n1)
             }
             let off = Int.random(in: 0...1024)
-            let sz = box.setRangeArray(arr, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, arr.count * itemWidth.rawValue * 2)
+            let sz = box.setRangeArray(arr, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt8: [Range<Int8>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt8: [Range<Int8>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt8, arr.map { $0.lowerBound..<$0.upperBound})
             
-            let arrInt16: [Range<Int16>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt16: [Range<Int16>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt16, arr.map { Int16(truncatingIfNeeded: $0.lowerBound)..<Int16(truncatingIfNeeded: $0.upperBound)})
             
-            let arrInt32: [Range<Int32>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt32: [Range<Int32>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt32, arr.map { Int32(truncatingIfNeeded: $0.lowerBound)..<Int32(truncatingIfNeeded: $0.upperBound)})
             
-            let arrInt64: [Range<Int64>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt64: [Range<Int64>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt64, arr.map { Int64(truncatingIfNeeded: $0.lowerBound)..<Int64(truncatingIfNeeded: $0.upperBound)})
         }
     }
@@ -37,7 +37,7 @@ final class BoxRangeArrayTests: XCTestCase {
     func testInt8U() {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit8
+        let rangeWidth = BinaryStore.BitWidth.bit8
 
         for _ in 0..<25 {
             var arr: [Range<UInt8>] = []
@@ -47,19 +47,19 @@ final class BoxRangeArrayTests: XCTestCase {
                 arr.append(n0..<n1)
             }
             let off = Int.random(in: 0...1024)
-            let sz = box.setRangeArray(arr, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, arr.count * itemWidth.rawValue * 2)
+            let sz = box.setRangeArray(arr, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt8U: [Range<UInt8>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt8U: [Range<UInt8>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt8U, arr.map { $0.lowerBound..<$0.upperBound})
             
-            let arrInt16U: [Range<UInt16>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt16U: [Range<UInt16>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt16U, arr.map { UInt16($0.lowerBound)..<UInt16($0.upperBound)})
             
-            let arrInt32U: [Range<UInt32>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt32U: [Range<UInt32>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt32U, arr.map { UInt32($0.lowerBound)..<UInt32($0.upperBound)})
             
-            let arrInt64U: [Range<UInt64>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt64U: [Range<UInt64>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt64U, arr.map { UInt64($0.lowerBound)..<UInt64($0.upperBound)})
         }
     }
@@ -67,7 +67,7 @@ final class BoxRangeArrayTests: XCTestCase {
     func testInt16() {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit16
+        let rangeWidth = BinaryStore.BitWidth.bit16
         
         for _ in 0..<25 {
             var arr: [Range<Int16>] = []
@@ -77,16 +77,16 @@ final class BoxRangeArrayTests: XCTestCase {
                 arr.append(n0..<n1)
             }
             let off = Int.random(in: 0...1024)
-            let sz = box.setRangeArray(arr, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, arr.count * itemWidth.rawValue * 2)
+            let sz = box.setRangeArray(arr, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt16: [Range<Int16>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt16: [Range<Int16>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt16, arr.map { $0.lowerBound..<$0.upperBound})
             
-            let arrInt32: [Range<Int32>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt32: [Range<Int32>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt32, arr.map { Int32(truncatingIfNeeded: $0.lowerBound)..<Int32(truncatingIfNeeded: $0.upperBound)})
             
-            let arrInt64: [Range<Int64>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt64: [Range<Int64>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt64, arr.map { Int64(truncatingIfNeeded: $0.lowerBound)..<Int64(truncatingIfNeeded: $0.upperBound)})
         }
     }
@@ -94,7 +94,7 @@ final class BoxRangeArrayTests: XCTestCase {
     func testInt16U() {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit16
+        let rangeWidth = BinaryStore.BitWidth.bit16
 
         for _ in 0..<25 {
             var arr: [Range<UInt16>] = []
@@ -104,16 +104,16 @@ final class BoxRangeArrayTests: XCTestCase {
                 arr.append(n0..<n1)
             }
             let off = Int.random(in: 0...1024)
-            let sz = box.setRangeArray(arr, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, arr.count * itemWidth.rawValue * 2)
+            let sz = box.setRangeArray(arr, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt16U: [Range<UInt16>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt16U: [Range<UInt16>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt16U, arr.map { $0.lowerBound..<$0.upperBound})
             
-            let arrInt32U: [Range<UInt32>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt32U: [Range<UInt32>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt32U, arr.map { UInt32($0.lowerBound)..<UInt32($0.upperBound)})
             
-            let arrInt64U: [Range<UInt64>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt64U: [Range<UInt64>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt64U, arr.map { UInt64($0.lowerBound)..<UInt64($0.upperBound)})
         }
     }
@@ -121,7 +121,7 @@ final class BoxRangeArrayTests: XCTestCase {
     func testInt32() {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit32
+        let rangeWidth = BinaryStore.BitWidth.bit32
         
         for _ in 0..<25 {
             var arr: [Range<Int32>] = []
@@ -131,13 +131,13 @@ final class BoxRangeArrayTests: XCTestCase {
                 arr.append(n0..<n1)
             }
             let off = Int.random(in: 0...1024)
-            let sz = box.setRangeArray(arr, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, arr.count * itemWidth.rawValue * 2)
+            let sz = box.setRangeArray(arr, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt32: [Range<Int32>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt32: [Range<Int32>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt32, arr.map { $0.lowerBound..<$0.upperBound})
             
-            let arrInt64: [Range<Int64>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt64: [Range<Int64>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt64, arr.map { Int64(truncatingIfNeeded: $0.lowerBound)..<Int64(truncatingIfNeeded: $0.upperBound)})
         }
     }
@@ -145,7 +145,7 @@ final class BoxRangeArrayTests: XCTestCase {
     func testInt32U() {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit32
+        let rangeWidth = BinaryStore.BitWidth.bit32
 
         for _ in 0..<25 {
             var arr: [Range<UInt32>] = []
@@ -155,13 +155,13 @@ final class BoxRangeArrayTests: XCTestCase {
                 arr.append(n0..<n1)
             }
             let off = Int.random(in: 0...1024)
-            let sz = box.setRangeArray(arr, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, arr.count * itemWidth.rawValue * 2)
+            let sz = box.setRangeArray(arr, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt32U: [Range<UInt32>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt32U: [Range<UInt32>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt32U, arr.map { $0.lowerBound..<$0.upperBound})
             
-            let arrInt64U: [Range<UInt64>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt64U: [Range<UInt64>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt64U, arr.map { UInt64($0.lowerBound)..<UInt64($0.upperBound)})
         }
     }
@@ -169,7 +169,7 @@ final class BoxRangeArrayTests: XCTestCase {
     func testInt64() {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit64
+        let rangeWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
             var arr: [Range<Int64>] = []
@@ -179,10 +179,10 @@ final class BoxRangeArrayTests: XCTestCase {
                 arr.append(n0..<n1)
             }
             let off = Int.random(in: 0...1024)
-            let sz = box.setRangeArray(arr, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, arr.count * itemWidth.rawValue * 2)
+            let sz = box.setRangeArray(arr, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt64: [Range<Int64>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt64: [Range<Int64>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt64, arr.map { $0.lowerBound..<$0.upperBound})
         }
     }
@@ -190,7 +190,7 @@ final class BoxRangeArrayTests: XCTestCase {
     func testInt64U() {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
-        let itemWidth = BinaryStore.BitWidth.bit64
+        let rangeWidth = BinaryStore.BitWidth.bit64
 
         for _ in 0..<25 {
             var arr: [Range<UInt64>] = []
@@ -200,10 +200,10 @@ final class BoxRangeArrayTests: XCTestCase {
                 arr.append(n0..<n1)
             }
             let off = Int.random(in: 0...1024)
-            let sz = box.setRangeArray(arr, offset: off, itemWidth: itemWidth)
-            XCTAssertEqual(sz, arr.count * itemWidth.rawValue * 2)
+            let sz = box.setRangeArray(arr, offset: off, rangeWidth: rangeWidth)
+            XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt64U: [Range<UInt64>] = box.getRangeArray(off..<off + sz, itemWidth: itemWidth)
+            let arrInt64U: [Range<UInt64>] = box.getRangeArray(off..<off + sz, rangeWidth: rangeWidth)
             XCTAssertEqual(arrInt64U, arr.map { $0.lowerBound..<$0.upperBound})
         }
     }
