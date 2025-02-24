@@ -12,7 +12,7 @@ final class BoxStringArrayIndexTests: XCTestCase {
         for _ in 0..<25 {
             let offsetWidth = BinaryStore.BitWidth(rawValue: Int.random(in: 2...8))! // offset 不能太小
             let stringWidth = BinaryStore.BitWidth(rawValue: Int.random(in: 1...8))!
-            let countWidth = BinaryStore.BitWidth(rawValue: Int.random(in: 1...8))!
+            let arrayWidth = BinaryStore.BitWidth(rawValue: Int.random(in: 1...8))!
             let encoding = randomEncoding()
 
             let index = Int.random(in: 0...1024)
@@ -24,10 +24,10 @@ final class BoxStringArrayIndexTests: XCTestCase {
                 arr.append(randomString(maxBytes: Int.random(in: 0..<128)))
             }
 
-            _ = box.setStringArray(arr, index: index, offset: off, offsetWidth: offsetWidth, stringWidth: stringWidth, countWidth: countWidth, encoding: encoding)
-            let result = box.getStringArray(index: index, offsetWidth: offsetWidth, sizeWidth: stringWidth, countWidth: countWidth, encoding: encoding)
+            _ = box.setStringArray(arr, index: index, offset: off, offsetWidth: offsetWidth, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
+            let result = box.getStringArray(index: index, offsetWidth: offsetWidth, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
             if result.isEmpty {
-                pr("offsetWidth=\(offsetWidth), sizeWidth=\(stringWidth), countWidth=\(countWidth), encoding=\(encoding), index=\(index), indexSz=\(indexSz), off=\(off)")
+                pr("offsetWidth=\(offsetWidth), stringWidth=\(stringWidth), arrayWidth=\(arrayWidth), encoding=\(encoding), index=\(index), indexSz=\(indexSz), off=\(off)")
             }
             XCTAssertEqual(result, arr)
         }

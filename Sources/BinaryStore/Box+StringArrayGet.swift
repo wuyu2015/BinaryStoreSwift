@@ -10,14 +10,14 @@ extension BinaryStore.Box {
     //   [UInt8]: string data
     //   ...
     //   ...
-    public func getStringArray(offset: Int, countWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [String] {
-        let arrayLen: UInt64 = getInt(offset: offset, itemWidth: countWidth)
+    public func getStringArray(offset: Int, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [String] {
+        let arrayLen: UInt64 = getInt(offset: offset, itemWidth: arrayWidth)
         if arrayLen == 0 {
             return []
         }
         var strArr: [String] = []
         strArr.reserveCapacity(Int(arrayLen))
-        var off = offset + countWidth.rawValue
+        var off = offset + arrayWidth.rawValue
         for _ in 0..<arrayLen {
             let wordSize: UInt64 = getInt(offset: off, itemWidth: stringWidth)
             off += stringWidth.rawValue

@@ -11,16 +11,16 @@ extension BinaryStore.Box {
     //   ...
     //   ...
     // return: byte size of the sum of data header bytes and string array bytes
-    public func setStringArray(_ strArr: [String], offset: Int, offset0: Int = 0, countWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [Int] {
+    public func setStringArray(_ strArr: [String], offset: Int, offset0: Int = 0, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [Int] {
         let len = strArr.count
         if len == 0 {
             return []
         }
         // set the length of string array
-        setInt(len, offset: offset, itemWidth: countWidth)
+        setInt(len, offset: offset, itemWidth: arrayWidth)
         var offsets: [Int] = []
         offsets.reserveCapacity(len + 1)
-        var off = offset + countWidth.rawValue
+        var off = offset + arrayWidth.rawValue
         if encoding == .utf16 {
             for s in strArr {
                 offsets.append(off - offset0)
