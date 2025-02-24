@@ -1,7 +1,7 @@
 extension BinaryStore.Box {
     
     /// Set Int at offset
-    public func setInt<T: FixedWidthInteger>(_ n: T, offset index: Int, intWidth: BinaryStore.BitWidth) {
+    public func setInt<T: FixedWidthInteger>(_ n: T, offset index: Int, intWidth: BinaryStore.BitWidth = .bit8) {
         let sz = index + intWidth.rawValue
         if sz > p.pointee.count {
             p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))

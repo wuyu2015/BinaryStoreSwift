@@ -1,7 +1,7 @@
 extension BinaryStore.Box {
     
     /// Get Int from offset
-    public func getInt<T: FixedWidthInteger>(offset i: Int, intWidth: BinaryStore.BitWidth) -> T {
+    public func getInt<T: FixedWidthInteger>(offset i: Int, intWidth: BinaryStore.BitWidth = .bit8) -> T {
         
         var result: T = 0
         
