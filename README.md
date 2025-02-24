@@ -9,15 +9,17 @@
 ```swift
 import BinaryStore
 
+// `buf` can be any collection of UInt8,
+// such as Array<UInt8>, Data, UnsafeMutablePointer<UInt8>, or UnsafeBufferPointer<UInt8> …
 var buf: [UInt8] = []
-let box = BinaryStore.box(&buf)
+let box = BinaryStore.Box(bytes: &buf)
 ```
 
 ### Integer Storage  
 
 ```swift
-// Store the number 10086 (a telecom service number) using 2 bytes
-box.setInt(10086, offset: 0, itemWidth: .bit16)
+// Store the number using 2 bytes
+box.setInt(65535, offset: 0, itemWidth: .bit16)
 
 // Store 65536 using 3 bytes
 box.setInt(65536, offset: 2, itemWidth: .bit24)
@@ -27,11 +29,28 @@ box.setInt(13888888888, offset: 5, itemWidth: .bit40)
 
 // A total of 10 bytes are used
 print(box.count) // Output: 10
+```
 
-// Read as Int
-let n1 = box.getInt(0, itemWidth: .bit16)
-let n2 = box.getInt(2, itemWidth: .bit24)
-let n3 = box.getInt(5, itemWidth: .bit40)
+The bytes of `buf` are now as follows (Little Endian):  
+
+| Index | Byte Value | Description           |
+|-------|--------------|----------------------|
+| 0       | 0x66          | 10086                    |
+| 1       | 0x27          |                               |
+| 2       | 0x00          | 65536                    |
+| 3       | 0x00          |                               |
+| 4       | 0x01          |                               |
+| 5       | 0x33          | 13888888888        |
+| 6       | 0xBD         |                               |
+| 7       | 0x7A          |                               |
+| 8       | 0x03          |                               |
+| 9       | 0x08          |                               |
+
+```swift
+// Read as Integer
+let n1: UInt16 = box.getInt(offset: 0, itemWidth: .bit16)
+let n2: UInt32 = box.getInt(offset: 2, itemWidth: .bit24)
+let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
 ```
 
 ### Integer Arrays  
@@ -43,13 +62,51 @@ let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]
 // Write the array starting at offset 64K, with the index stored at position 10
 box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
 
-// Retrieve it as [Int], using only the index
-// Note: Ensuring matching width types is crucial. Using different widths creatively can make unauthorized parsing of your binary files difficult.
-let result: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
-
-// Or retrieve it as [Int8]
-let result8: [Int8] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+// Total bytes: 1024 * 64 + arr.count
+// 65536 + 8 = 65544
+print(box.count) // Output: 65544
 ```
+
+The bytes of `buf` are now as follows (Little Endian):  
+
+| Index      | Byte Value | Description      |
+|-----------|-------------|-------------------|
+| 0             | 0x0           | Unused             |
+| ...            | 0x0           | Unused             |
+| 10           | 0x00         | Offset: 6553      |
+| 11           | 0x00         |                          |
+| 12           | 0x00         |                          |
+| 13           | 0x01         |                          |
+| 14           | 0x08         | Array count: 8  |
+| ...            | 0x0           | Unused            |
+| 65536     | 0x01         | 1                       |
+| 65537     | 0x02         | 2                       |
+| 65538     | 0x03         | 3                       |
+| 65539     | 0x04         | 4                       |
+| 65540     | 0xFF         | -1                     |
+| 65541     | 0xFE         | -2                     |
+| 65542     | 0xFD         | -3                     |
+| 65543     | 0xFC         | -4                     |
+
+```swift
+// Now, we read the array using the index value
+let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+
+print(result1) // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
+
+// Read with [UInt8], negative numbers will be converted to the corresponding unsigned values
+let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+
+print(result2) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
+
+// Read with [UInt], note that it has the same effect as [UInt8] because we used the .bit8 tag
+let result3: [UInt] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+
+print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
+```
+
+> Note: Ensuring the width types match is critical. Using different width types flexibly will make it difficult for others to incorrectly parse your binary files.
+
 
 ### Strings  
 
@@ -139,7 +196,7 @@ This project is licensed under the MIT License.
 
 # BinaryStore  
 
-`BinaryStore` 是一个 Swift Package，专为创建自定义二进制数据文件而设计，重点在于提高存储效率。它允许开发者灵活地构建和操作二进制文件格式。除了标准的 8 位、16 位、32 位、64 位整型之外，BinaryStore 还支持 24 位、40 位、48 位和 56 位的非主流整型，以便更高效地存储数据。  
+`BinaryStore` 是一个 Swift Package，为创建自定义二进制数据文件而设计，重点在于节省存储空间。它允许开发者灵活地构建和操作二进制文件格式。除了标准的 8 位、16 位、32 位、64 位整型之外，BinaryStore 还支持 24 位、40 位、48 位和 56 位的非主流整型。  
 
 ## 快速开始  
 
@@ -148,29 +205,48 @@ This project is licensed under the MIT License.
 ```swift
 import BinaryStore
 
+// `buf` 可以是任意的 UInt8 集合，
+// 例如 Array<UInt8>, Data, UnsafeMutablePointer<UInt8>, UnsafeBufferPointer<UInt8>…
 var buf: [UInt8] = []
-let box = BinaryStore.box(&buf)
+let box = BinaryStore.Box(bytes: &buf)
 ```
 
 ### 整型存储  
 
 ```swift
-// 使用 2 字节存储 10086 这个奸商电话号码
+// 用 2 字节存储一个奸商号码
 box.setInt(10086, offset: 0, itemWidth: .bit16)
 
-// 使用 3 字节存储 65536
+// 用 3 字节存储 65536
 box.setInt(65536, offset: 2, itemWidth: .bit24)
 
-// 使用 5 字节存储中国大陆手机号码
+// 用 5 字节存储中国大陆手机号码
 box.setInt(13888888888, offset: 5, itemWidth: .bit40)
 
-// 总共使用 10 字节
+// 总用了 10 字节
 print(box.count) // 输出：10
+```
 
+现在 `buf` 的字节如下（Little Endian）：
+
+| 索引  | 字节值     | 说明                      |
+|-------|------------|----------------------|
+| 0       | 0x66        | 10086                   |
+| 1       | 0x27        |                              |
+| 2       | 0x00        | 65536                   |
+| 3       | 0x00        |                              |
+| 4       | 0x01        |                              |
+| 5       | 0x33        | 13888888888       |
+| 6       | 0xBD       |                              |
+| 7       | 0x7A        |                              |
+| 8       | 0x03        |                              |
+| 9       | 0x08        |                              |
+
+```swift
 // 读取整数
-let n1 = box.getInt(0, itemWidth: .bit16)
-let n2 = box.getInt(2, itemWidth: .bit24)
-let n3 = box.getInt(5, itemWidth: .bit40)
+let n1: UInt16 = box.getInt(offset: 0, itemWidth: .bit16)
+let n2: UInt32 = box.getInt(offset: 2, itemWidth: .bit24)
+let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
 ```
 
 ### 整型数组  
@@ -182,13 +258,50 @@ let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]
 // 在 64K 偏移处写入数组数据，索引存储在位置 10
 box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
 
-// 只使用索引即可重新获取数据
-// 注意：确保宽度匹配至关重要，灵活使用不同宽度类型会让非法解析你二进制文件的人头疼
-let result: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
-
-// 或者使用 [Int8] 读取
-let result8: [Int8] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+// 总字节：1024 * 64 + arr.count 字节，
+// 即 65536 + 8 = 65544
+print(box.count) // 输出：65544
 ```
+
+现在 `buf` 的字节如下（Little Endian）：
+
+| 索引       | 字节值     | 说明                         |
+|-----------|------------|------------------------|
+| 0            | 0x0          | 未使用                      |
+| ...           | 0x0          | 未使用                      |
+| 10          | 0x00        | 偏移量：65536        |
+| 11          | 0x00        |                                  |
+| 12          | 0x00        |                                  |
+| 13          | 0x01        |                                  |
+| 14          | 0x8          | 数组元素个数：8      |
+| ...           | 0x0          | 未使用                      |
+| 65536    | 0x01        | 1                               |
+| 65537    | 0x02        | 2                               |
+| 65538    | 0x03        | 3                               |
+| 65539    | 0x04        | 4                               |
+| 65540    | 0xFF        | -1                             |
+| 65541    | 0xFE        | -2                             |
+| 65542    | 0xFD        | -3                             |
+| 65543    | 0xFC        | -4                             |
+
+```swift
+// 现在，我们使用索引值读取数组
+let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+
+print(result1) // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
+
+// 用 [UInt8] 读取，负数会转为对应的无符号值
+let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+
+print(result2) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
+
+// 用 [UInt] 读取，注意它的效果和 [UInt8] 相同，因为我们使用了 `.bit8` 标记
+let result3: [UInt] = box.getIntArray(index: 10, offsetWidth: .bit32, sizeWidth: .bit8, itemWidth: .bit8)
+
+print(result3) // Output: [1, 2, 3, 4, 255, 254, 253, 252]
+```
+
+> 注意：确保宽度匹配至关重要，灵活使用不同宽度类型会让非法解析你二进制文件的人头疼。
 
 ### 字符串  
 
