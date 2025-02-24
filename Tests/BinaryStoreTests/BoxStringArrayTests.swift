@@ -7,7 +7,7 @@ final class BoxStringArrayTests: XCTestCase {
     
     func test() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         
         for _ in 0..<25 {
             let off = Int.random(in: 0...1024)

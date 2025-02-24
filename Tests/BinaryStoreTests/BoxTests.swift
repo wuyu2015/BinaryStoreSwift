@@ -5,7 +5,7 @@ import XCTestDelayPrinter
 final class BoxTests: XCTestCase {
     func testInit() {
         var arr: [UInt8] = [1, 2, 3, 4]
-        var box = BinaryStore.Box(&arr)
+        var box = BinaryStore.Box(bytes: &arr)
         
         box[0] = 100
         XCTAssertEqual(arr, box.p.pointee)
@@ -20,7 +20,7 @@ final class BoxTests: XCTestCase {
     
     func testInit2() {
         var data = Data([1, 2, 3, 4])
-        var box = BinaryStore.Box(&data)
+        var box = BinaryStore.Box(bytes: &data)
         
         box[0] = 100
         XCTAssertEqual(data, box.p.pointee)

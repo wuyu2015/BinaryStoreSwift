@@ -7,7 +7,7 @@ final class BoxStringArrayIndexTests: XCTestCase {
     
     func test() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
 
         for _ in 0..<25 {
             let offsetWidth = BinaryStore.BitWidth(rawValue: Int.random(in: 2...8))! // offset 不能太小

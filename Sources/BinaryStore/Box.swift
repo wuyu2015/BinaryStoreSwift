@@ -3,8 +3,8 @@ extension BinaryStore {
 
         public var p: UnsafeMutablePointer<C>
 
-        public init(_ pointer: UnsafeMutablePointer<C>) {
-            p = pointer
+        public init(bytes: UnsafeMutablePointer<C>) {
+            p = bytes
         }
     }
 }

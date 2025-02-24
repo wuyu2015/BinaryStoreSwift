@@ -6,7 +6,7 @@ final class BoxRangeArrayTests: XCTestCase {
     
     func testInt8() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit8
         
         for _ in 0..<25 {
@@ -36,7 +36,7 @@ final class BoxRangeArrayTests: XCTestCase {
     
     func testInt8U() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit8
 
         for _ in 0..<25 {
@@ -66,7 +66,7 @@ final class BoxRangeArrayTests: XCTestCase {
     
     func testInt16() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit16
         
         for _ in 0..<25 {
@@ -93,7 +93,7 @@ final class BoxRangeArrayTests: XCTestCase {
 
     func testInt16U() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit16
 
         for _ in 0..<25 {
@@ -120,7 +120,7 @@ final class BoxRangeArrayTests: XCTestCase {
     
     func testInt32() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit32
         
         for _ in 0..<25 {
@@ -144,7 +144,7 @@ final class BoxRangeArrayTests: XCTestCase {
 
     func testInt32U() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit32
 
         for _ in 0..<25 {
@@ -168,7 +168,7 @@ final class BoxRangeArrayTests: XCTestCase {
     
     func testInt64() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
@@ -189,7 +189,7 @@ final class BoxRangeArrayTests: XCTestCase {
 
     func testInt64U() {
         var buf: [UInt8] = []
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit64
 
         for _ in 0..<25 {

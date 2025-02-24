@@ -7,7 +7,7 @@ final class BoxStringTests: XCTestCase {
     
     func test() {
         var buf = randomBuf(count: 1024)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         
         for _ in 0..<25 {
             let s = randomString(maxBytes: Int.random(in: 0..<128))

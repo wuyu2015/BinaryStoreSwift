@@ -6,7 +6,7 @@ final class BoxRangeTests: XCTestCase {
     
     func testInt8() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit8
         
         for _ in 0..<25 {
@@ -37,7 +37,7 @@ final class BoxRangeTests: XCTestCase {
     
     func testInt8u() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit8
         
         for _ in 0..<25 {
@@ -68,7 +68,7 @@ final class BoxRangeTests: XCTestCase {
     
     func testInt16() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit16
         
         for _ in 0..<25 {
@@ -96,7 +96,7 @@ final class BoxRangeTests: XCTestCase {
 
     func testInt16u() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit16
         
         for _ in 0..<25 {
@@ -124,7 +124,7 @@ final class BoxRangeTests: XCTestCase {
     
     func testInt32() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit32
         
         for _ in 0..<25 {
@@ -149,7 +149,7 @@ final class BoxRangeTests: XCTestCase {
 
     func testInt32u() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit32
         
         for _ in 0..<25 {
@@ -174,7 +174,7 @@ final class BoxRangeTests: XCTestCase {
     
     func testInt64() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
@@ -196,7 +196,7 @@ final class BoxRangeTests: XCTestCase {
 
     func testInt64u() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
@@ -218,7 +218,7 @@ final class BoxRangeTests: XCTestCase {
     
     func testInt() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
@@ -240,7 +240,7 @@ final class BoxRangeTests: XCTestCase {
 
     func testIntU() {
         var buf = randomBuf(count: 100)
-        let box = BinaryStore.Box(&buf)
+        let box = BinaryStore.Box(bytes: &buf)
         let itemWidth = BinaryStore.BitWidth.bit64
         
         for _ in 0..<25 {
