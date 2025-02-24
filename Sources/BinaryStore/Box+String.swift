@@ -22,6 +22,7 @@ extension BinaryStore.Box {
     //   stringWidth: capacity of string
     //   [UInt8]: string data
     // return: total byte size
+    @discardableResult
     public func setString(_ s: String, index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> Int {
         // set string at offset
         let sz = setString(s, offset: offset, stringWidth: stringWidth, encoding: encoding)

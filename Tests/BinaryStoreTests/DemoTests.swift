@@ -41,4 +41,22 @@ final class DemoTests: XCTestCase {
         let result3: [UInt32] = box.getIntArray(index: 10, offsetWidth: .bit32, byteWidth: .bit8, intWidth: .bit8)
         pr(result3)
     }
+    
+    func testDemoString() {
+        var buf: [UInt8] = []
+        let box = BinaryStore.Box(bytes: &buf)
+        
+        let s = "Hello world!"
+        
+        box.setString(s, index: 0, offset: 100)
+        
+        let sz: Int = box.getInt(offset: 100)
+        pr(sz)
+        
+        let s1 = box.getString(index: 0)
+        pr(s1)
+        
+        let s2 = box.getString(offset: 100)
+        pr(s2)
+    }
 }

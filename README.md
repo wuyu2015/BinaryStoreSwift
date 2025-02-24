@@ -116,22 +116,47 @@ print(result3)
 > Note: Ensuring the width types match is critical. Using different width types flexibly will make it difficult for others to incorrectly parse your binary files.
 
 
-### Strings  
+### String  
 
 ```swift
 let s = "Hello world!"
 
-// Write the string starting at offset 64K, storing the index at position 0
-box.setString(s, index: 0, offset: 64 * 1024)
+// Write the string at offset 100, storing the index at position 0
+box.setString(s, index: 0, offset: 100)
+```
 
+Now, the bytes in `buf` are as follows (Little Endian):
+
+| Index  | Byte Value | Description            |
+|--------|------------|------------------------|
+| 0        | 0x0          | Offset: 65536           |
+| 1        | 0x0          |                                  |
+| 2        | 0x1          |                                  |
+| 3        | 0x0          |                                  |
+| ...       | 0x0          | Unused                     |
+| 100    | 0xC         | Byte count: 12          |
+| 101    | 0x48        | "H"                           |
+| 102    | 0x65        | "e"                            |
+| 103    | 0x6C        | "l"                             |
+| 104    | 0x6C        | "l"                             |
+| 105    | 0x6F        | "o"                            |
+| 106    | 0x20        | " " (space)                |
+| 107    | 0x77        | "w"                           |
+| 108    | 0x6F        | "o"                            |
+| 109    | 0x72        | "r"                             |
+| 110    | 0x6C        | "l"                             |
+| 111    | 0x64        | "d"                            |
+| 112    | 0x21        | "!"                             |
+
+```swift
 // Retrieve the string using the index
-let s1 = getString(index: 0)
+let s1 = box.getString(index: 0)
 
 // Output: Hello world!
-print(s1)  
+print(s1)
 
-// Or retrieve it using the offset directly at 128K
-let s2 = getString(64 * 1024)
+// Or retrieve the string directly using offset 100
+let s2 = box.getString(offset: 100)
 
 // Output: Hello world!
 print(s2)
@@ -330,17 +355,42 @@ print(result3)
 ```swift
 let s = "Hello world!"
 
-// 在 64K 偏移处写入字符串，索引存储在 0 位置
-box.setString(s, index: 0, offset: 64 * 1024)
+// 在 100 偏移处写入字符串，索引存储在 0 位置
+box.setString(s, index: 0, offset: 100)
+```
 
+现在 `buf` 的字节如下（Little Endian）：
+
+| 索引       | 字节值     | 说明                                 |
+|-----------|------------|-----------------------------|
+| 0            | 0x0          | 偏移量：65536                |
+| 1            | 0x0          |                                         |
+| 2            | 0x1          |                                         |
+| 3            | 0x0          |                                         |
+| ...           | 0x0          | 未使用                             |
+| 100        | 0xC         | 字节数：12                      |
+| 101        | 0x48        | "H"                                  |
+| 102        | 0x65        | "e"                                   |
+| 103        | 0x6C        | "l"                                    |
+| 104        | 0x6C        | "l"                                    |
+| 105        | 0x6F        | "o"                                   |
+| 106        | 0x20        | " "                                    |
+| 107        | 0x77        | "w"                                  |
+| 108        | 0x6F        | "o"                                  |
+| 109        | 0x72        | "r"                                   |
+| 110        | 0x6C        | "l"                                   |
+| 111        | 0x64        | "d"                                  |
+| 112        | 0x21        | "!"                                   |
+
+```swift
 // 通过索引取出字符串
-let s1 = getString(index: 0))
+let s1 = box.getString(index: 0))
 
 // 输出：Hello world!
 print(s1)
 
-// 或者直接通过偏移值（128K 处）取出字符串
-let s2 = getString(offset: 64 * 1024)
+// 或者直接通过偏移值 100 取出字符串
+let s2 = box.getString(offset: 100)
 
 // 输出：Hello world!
 print(s2)
