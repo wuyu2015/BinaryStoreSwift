@@ -81,7 +81,7 @@ The bytes of `buf` are now as follows (Little Endian):
 | 10           | 0x00         | Offset: 65536    |
 | 11           | 0x00         |                          |
 | 12           | 0x00         |                          |
-| 13           | 0x01         |                          |
+| 13           | 0x01         | (Offset end)      |
 | 14           | 0x08         | Array count: 8  |
 | ...            | 0x0           | Unused            |
 | 65536     | 0x01         | 1                       |
@@ -132,7 +132,7 @@ Now, the bytes in `buf` are as follows (Little Endian):
 | 0        | 0x0          | Offset: 65536           |
 | 1        | 0x0          |                                  |
 | 2        | 0x1          |                                  |
-| 3        | 0x0          |                                  |
+| 3        | 0x0          | (Offset end)              |
 | ...       | 0x0          | Unused                     |
 | 100    | 0xC         | Byte count: 12          |
 | 101    | 0x48        | "H"                           |
@@ -316,7 +316,7 @@ print(box.count) // 输出：65544
 | 10          | 0x00        | 偏移量：65536        |
 | 11          | 0x00        |                                  |
 | 12          | 0x00        |                                  |
-| 13          | 0x01        |                                  |
+| 13          | 0x01        | （偏移量结束）        |
 | 14          | 0x8          | 数组元素个数：8      |
 | ...           | 0x0          | 未使用                      |
 | 65536    | 0x01        | 1                               |
@@ -366,7 +366,7 @@ box.setString(s, index: 0, offset: 100)
 | 0            | 0x0          | 偏移量：65536                |
 | 1            | 0x0          |                                         |
 | 2            | 0x1          |                                         |
-| 3            | 0x0          |                                         |
+| 3            | 0x0          | （偏移量结束）               |
 | ...           | 0x0          | 未使用                             |
 | 100        | 0xC         | 字节数：12                      |
 | 101        | 0x48        | "H"                                  |
