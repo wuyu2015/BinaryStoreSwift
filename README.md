@@ -18,39 +18,44 @@ let box = BinaryStore.Box(bytes: &buf)
 ### Integer Storage  
 
 ```swift
+// Store the number using 1 byte
+box.setInt(123, offset: 0)
+
 // Store the number using 2 bytes
-box.setInt(65535, offset: 0, intWidth: .bit16)
+box.setInt(65535, offset: 1, intWidth: .bit16)
 
 // Store 65536 using 3 bytes
-box.setInt(65536, offset: 2, intWidth: .bit24)
+box.setInt(65536, offset: 3, intWidth: .bit24)
 
 // Store a mainland China phone number using 5 bytes
-box.setInt(13888888888, offset: 5, intWidth: .bit40)
+box.setInt(13888888888, offset: 6, intWidth: .bit40)
 
-// A total of 10 bytes are used
-print(box.count) // Output: 10
+// A total of 11 bytes are used
+print(box.count) // Output: 11
 ```
 
 The bytes of `buf` are now as follows (Little Endian):  
 
-| Index | Byte Value | Description           |
-|-------|--------------|----------------------|
-| 0       | 0xFF          | 65535                    |
-| 1       | 0xFF          |                               |
-| 2       | 0x00          | 65536                    |
-| 3       | 0x00          |                               |
-| 4       | 0x01          |                               |
-| 5       | 0x33          | 13888888888        |
-| 6       | 0xBD         |                               |
-| 7       | 0x7A          |                               |
-| 8       | 0x03          |                               |
-| 9       | 0x08          |                               |
+| Index   | Byte Value | Description              |
+|---------|--------------|------------------------|
+| 0         | 0x7B           | 123                          |
+| 1         | 0xFF           | 65535                      |
+| 2         | 0xFF           |                                 |
+| 3         | 0x00           | 65536                      |
+| 4         | 0x00           |                                 |
+| 5         | 0x01           |                                 |
+| 6         | 0x33           | 13888888888          |
+| 7         | 0xBD          |                                 |
+| 8         | 0x7A           |                                 |
+| 9         | 0x03           |                                 |
+| 10       | 0x08           |                                 |
 
 ```swift
 // Read as Integer
-let n1: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
-let n2: UInt32 = box.getInt(offset: 2, intWidth: .bit24)
-let n3: Int = box.getInt(offset: 5, intWidth: .bit40)
+let n1: UInt8 = box.getInt(offset: 0)
+let n2: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
+let n3 UInt32 = box.getInt(offset: 2, intWidth: .bit24)
+let n4: Int = box.getInt(offset: 5, intWidth: .bit40)
 ```
 
 ### Integer Arrays  
@@ -223,39 +228,44 @@ let box = BinaryStore.Box(bytes: &buf)
 ### 整型存储  
 
 ```swift
+// 用 1 字节存储
+box.setInt(123, offset: 0)
+
 // 用 2 字节存储
-box.setInt(65535, offset: 0, intWidth: .bit16)
+box.setInt(65535, offset: 1, intWidth: .bit16)
 
 // 用 3 字节存储 65536
-box.setInt(65536, offset: 2, intWidth: .bit24)
+box.setInt(65536, offset: 3, intWidth: .bit24)
 
 // 用 5 字节存储中国大陆手机号码
-box.setInt(13888888888, offset: 5, intWidth: .bit40)
+box.setInt(13888888888, offset: 6, intWidth: .bit40)
 
-// 总用了 10 字节
-print(box.count) // 输出：10
+// 总用了 11 字节
+print(box.count) // 输出：11
 ```
 
 现在 `buf` 的字节如下（Little Endian）：
 
-| 索引  | 字节值     | 说明                      |
-|-------|------------|----------------------|
-| 0       | 0xFF        | 65535                   |
-| 1       | 0xFF        |                              |
-| 2       | 0x00        | 65536                   |
-| 3       | 0x00        |                              |
-| 4       | 0x01        |                              |
-| 5       | 0x33        | 13888888888       |
-| 6       | 0xBD       |                              |
-| 7       | 0x7A        |                              |
-| 8       | 0x03        |                              |
-| 9       | 0x08        |                              |
+| 索引    | 字节值        | 说明                         |
+|--------|---------------|------------------------|
+| 0         | 0x7B           | 123                          |
+| 1         | 0xFF           | 65535                      |
+| 2         | 0xFF           |                                 |
+| 3         | 0x00           | 65536                      |
+| 4         | 0x00           |                                 |
+| 5         | 0x01           |                                 |
+| 6         | 0x33           | 13888888888          |
+| 7         | 0xBD          |                                 |
+| 8         | 0x7A           |                                 |
+| 9         | 0x03           |                                 |
+| 10       | 0x08           |                                 |
 
 ```swift
 // 读取整数
-let n1: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
-let n2: UInt32 = box.getInt(offset: 2, intWidth: .bit24)
-let n3: Int = box.getInt(offset: 5, intWidth: .bit40)
+let n1: UInt8 = box.getInt(offset: 0)
+let n2: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
+let n3 UInt32 = box.getInt(offset: 2, intWidth: .bit24)
+let n4: Int = box.getInt(offset: 5, intWidth: .bit40)
 ```
 
 ### 整型数组  

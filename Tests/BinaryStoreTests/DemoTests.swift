@@ -7,17 +7,19 @@ final class DemoTests: XCTestCase {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
         
-        box.setInt(65535, offset: 0, intWidth: .bit16)
-        box.setInt(65536, offset: 2, intWidth: .bit24)
-        box.setInt(13888888888, offset: 5, intWidth: .bit40)
+        box.setInt(123, offset: 0)
+        box.setInt(65535, offset: 1, intWidth: .bit16)
+        box.setInt(65536, offset: 3, intWidth: .bit24)
+        box.setInt(13888888888, offset: 6, intWidth: .bit40)
         pr(box.count)
         pr(buf)
         
-        let n1: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
-        let n2: UInt32 = box.getInt(offset: 2, intWidth: .bit24)
-        let n3: Int = box.getInt(offset: 5, intWidth: .bit40)
+        let n1: Int = box.getInt(offset: 0)
+        let n2: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
+        let n3: UInt32 = box.getInt(offset: 2, intWidth: .bit24)
+        let n4: Int = box.getInt(offset: 5, intWidth: .bit40)
         
-        pr(n1, n2, n3)
+        pr(n1, n2, n3, n4)
     }
     
     func testDemoIntArray() {
