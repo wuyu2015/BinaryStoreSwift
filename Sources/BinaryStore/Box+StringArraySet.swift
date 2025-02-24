@@ -17,7 +17,7 @@ extension BinaryStore.Box {
             return []
         }
         // set the length of string array
-        setInt(len, offset: offset, itemWidth: arrayWidth)
+        setInt(len, offset: offset, intWidth: arrayWidth)
         var offsets: [Int] = []
         offsets.reserveCapacity(len + 1)
         var off = offset + arrayWidth.rawValue
@@ -31,7 +31,7 @@ extension BinaryStore.Box {
                     p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
                 }
                 
-                setInt(codes.count << 1, offset: off, itemWidth: stringWidth)
+                setInt(codes.count << 1, offset: off, intWidth: stringWidth)
                 off += stringWidth.rawValue
                 for code in codes {
                     p.pointee[off] = UInt8(truncatingIfNeeded: code >> 8)
@@ -49,7 +49,7 @@ extension BinaryStore.Box {
                     p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
                 }
                 
-                setInt(codes.count, offset: off, itemWidth: stringWidth)
+                setInt(codes.count, offset: off, intWidth: stringWidth)
                 off += stringWidth.rawValue
                 for code in codes {
                     p.pointee[off] = code

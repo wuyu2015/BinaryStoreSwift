@@ -8,11 +8,11 @@ extension BinaryStore.Box {
     //   offsetWidth: offset
     //   byteWidth: count of data bytes
     public func getStringArray(index: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth = .bit32, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [String] {
-        let sz: UInt64 = getInt(offset: index + offsetWidth.rawValue, itemWidth: byteWidth)
+        let sz: UInt64 = getInt(offset: index + offsetWidth.rawValue, intWidth: byteWidth)
         if sz == 0 {
             return []
         }
-        let off: UInt64 = getInt(offset: index, itemWidth: offsetWidth)
+        let off: UInt64 = getInt(offset: index, intWidth: offsetWidth)
         return getStringArray(offset: Int(off), arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
     }
     
@@ -39,9 +39,9 @@ extension BinaryStore.Box {
         let offsets = setStringArray(strArr, offset: offset, offset0: index0, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
         let sz1 = offsets.isEmpty ? 0 : Int(offsets.last!) + index0 - offset
         // set offset in head 1
-        setInt(sz1 == 0 ? 0 : offset - index0, offset: index, itemWidth: offsetWidth)
+        setInt(sz1 == 0 ? 0 : offset - index0, offset: index, intWidth: offsetWidth)
         // set size in head 1
-        setInt(sz1, offset: index + offsetWidth.rawValue, itemWidth: stringWidth)
+        setInt(sz1, offset: index + offsetWidth.rawValue, intWidth: stringWidth)
         if !needOffsets {
             return sz1
         }

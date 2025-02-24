@@ -34,9 +34,9 @@ extension BinaryStore.Box {
         // set binary plist at offset
         let sz = try setBinaryPlist(value, offset: offset)
         // set offset in head
-        setInt(sz == 0 ? UInt32(0) : UInt32(offset), offset: index, itemWidth: offsetType)
+        setInt(sz == 0 ? UInt32(0) : UInt32(offset), offset: index, intWidth: offsetType)
         // set size in head
-        setInt(UInt32(sz), offset: index + offsetType.rawValue, itemWidth: sizeType)
+        setInt(UInt32(sz), offset: index + offsetType.rawValue, intWidth: sizeType)
         // return the binary plist byte size
         return sz
     }

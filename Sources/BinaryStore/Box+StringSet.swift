@@ -18,7 +18,7 @@ extension BinaryStore.Box {
                 p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
             }
 
-            setInt(strSz, offset: offset, itemWidth: stringWidth)
+            setInt(strSz, offset: offset, intWidth: stringWidth)
             for code in codes {
                 p.pointee[off] = UInt8(truncatingIfNeeded: code >> 8)
                 p.pointee[off + 1] = UInt8(truncatingIfNeeded: code)
@@ -33,7 +33,7 @@ extension BinaryStore.Box {
                 p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
             }
 
-            setInt(strSz, offset: offset, itemWidth: stringWidth)
+            setInt(strSz, offset: offset, intWidth: stringWidth)
             for code in codes {
                 p.pointee[off] = code
                 off += 1

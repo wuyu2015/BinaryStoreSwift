@@ -7,15 +7,15 @@ final class DemoTests: XCTestCase {
         var buf: [UInt8] = []
         let box = BinaryStore.Box(bytes: &buf)
         
-        box.setInt(65535, offset: 0, itemWidth: .bit16)
-        box.setInt(65536, offset: 2, itemWidth: .bit24)
-        box.setInt(13888888888, offset: 5, itemWidth: .bit40)
+        box.setInt(65535, offset: 0, intWidth: .bit16)
+        box.setInt(65536, offset: 2, intWidth: .bit24)
+        box.setInt(13888888888, offset: 5, intWidth: .bit40)
         pr(box.count)
         pr(buf)
         
-        let n1: UInt16 = box.getInt(offset: 0, itemWidth: .bit16)
-        let n2: UInt32 = box.getInt(offset: 2, itemWidth: .bit24)
-        let n3: Int = box.getInt(offset: 5, itemWidth: .bit40)
+        let n1: UInt16 = box.getInt(offset: 0, intWidth: .bit16)
+        let n2: UInt32 = box.getInt(offset: 2, intWidth: .bit24)
+        let n3: Int = box.getInt(offset: 5, intWidth: .bit40)
         
         pr(n1, n2, n3)
     }

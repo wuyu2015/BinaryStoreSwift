@@ -1,7 +1,7 @@
 extension BinaryStore.Box {
     
     /// Get Int from offset
-    public func getInt<T: FixedWidthInteger>(offset i: Int, itemWidth: BinaryStore.BitWidth) -> T {
+    public func getInt<T: FixedWidthInteger>(offset i: Int, intWidth: BinaryStore.BitWidth) -> T {
         
         var result: T = 0
         
@@ -12,7 +12,7 @@ extension BinaryStore.Box {
                 rawPtr.storeBytes(of: p.pointee[i], toByteOffset: 0, as: UInt8.self)
             }
         case 16:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 withUnsafeMutablePointer(to: &result) { ptr in
                     let rawPtr = UnsafeMutableRawPointer(ptr)
@@ -29,7 +29,7 @@ extension BinaryStore.Box {
                 }
             }
         case 32:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 withUnsafeMutablePointer(to: &result) { ptr in
                     let rawPtr = UnsafeMutableRawPointer(ptr)
@@ -70,7 +70,7 @@ extension BinaryStore.Box {
                 }
             }
         default:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 withUnsafeMutablePointer(to: &result) { ptr in
                     let rawPtr = UnsafeMutableRawPointer(ptr)

@@ -1,14 +1,14 @@
 extension BinaryStore.Box {
     
     /// Set Int at offset
-    public func setInt<T: FixedWidthInteger>(_ n: T, offset index: Int, itemWidth: BinaryStore.BitWidth) {
-        let sz = index + itemWidth.rawValue
+    public func setInt<T: FixedWidthInteger>(_ n: T, offset index: Int, intWidth: BinaryStore.BitWidth) {
+        let sz = index + intWidth.rawValue
         if sz > p.pointee.count {
             p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
         }
         switch T.bitWidth {
         case 8:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 withUnsafeBytes(of: n) {
                     p.pointee[index] = $0[0]
@@ -50,7 +50,7 @@ extension BinaryStore.Box {
                 p.pointee.replaceSubrange(index + 1...index + 7, with: repeatElement(n < 0 ? 0xFF : 0, count: 7))
             }
         case 16:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 withUnsafeBytes(of: n) {
                     p.pointee[index] = $0[0]
@@ -98,7 +98,7 @@ extension BinaryStore.Box {
                 p.pointee.replaceSubrange(index + 2...index + 7, with: repeatElement(n < 0 ? 0xFF : 0, count: 6))
             }
         case 32:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 withUnsafeBytes(of: n) {
                     p.pointee[index] = $0[0]
@@ -155,7 +155,7 @@ extension BinaryStore.Box {
                 p.pointee.replaceSubrange(index + 4...index + 7, with: repeatElement(n < 0 ? 0xFF : 0, count: 4))
             }
         default:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 withUnsafeBytes(of: n) {
                     p.pointee[index] = $0[0]

@@ -7,8 +7,8 @@ extension BinaryStore.Box {
     // data:
     //   [UInt8 with intWidth]
     public func getIntArray<T: FixedWidthInteger>(index i: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth, intWidth: BinaryStore.BitWidth) -> [T] {
-        let off: UInt64 = getInt(offset: i, itemWidth: offsetWidth)
-        let sz: UInt64 = getInt(offset: i + offsetWidth.rawValue, itemWidth: byteWidth)
+        let off: UInt64 = getInt(offset: i, intWidth: offsetWidth)
+        let sz: UInt64 = getInt(offset: i + offsetWidth.rawValue, intWidth: byteWidth)
         return getIntArray(Int(off)..<Int(off) + Int(sz), intWidth: intWidth)
     }
     
@@ -23,9 +23,9 @@ extension BinaryStore.Box {
     public func setIntArray<T: FixedWidthInteger>(_ intArr: [T], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth, intWidth: BinaryStore.BitWidth) -> Int {
         let sz = setIntArray(intArr, offset: offset, intWidth: intWidth)
         // set offset at index
-        setInt(sz == 0 ? 0 : offset - index0, offset: index, itemWidth: offsetWidth)
+        setInt(sz == 0 ? 0 : offset - index0, offset: index, intWidth: offsetWidth)
         // set size at index
-        setInt(sz, offset: index + offsetWidth.rawValue, itemWidth: byteWidth)
+        setInt(sz, offset: index + offsetWidth.rawValue, intWidth: byteWidth)
         // return the byte size of the int array
         return sz
     }
