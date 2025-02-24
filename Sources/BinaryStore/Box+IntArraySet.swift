@@ -2,11 +2,11 @@ extension BinaryStore.Box {
     
     /// Set Array at offset
     // data:
-    //   [UInt with itemWidth]
+    //   [UInt with intWidth]
     // return: byte size of the int array
     @discardableResult
-    public func setIntArray<T: FixedWidthInteger>(_ intArr: [T], offset: Int, itemWidth: BinaryStore.BitWidth) -> Int {
-        let sz = offset + itemWidth.rawValue * intArr.count
+    public func setIntArray<T: FixedWidthInteger>(_ intArr: [T], offset: Int, intWidth: BinaryStore.BitWidth) -> Int {
+        let sz = offset + intWidth.rawValue * intArr.count
         if sz > p.pointee.count {
             p.pointee.append(contentsOf: Array(repeating: 0, count: sz - p.pointee.count))
         }
@@ -14,7 +14,7 @@ extension BinaryStore.Box {
         var i = offset
         switch T.bitWidth {
         case 8:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 for n in intArr {
                     withUnsafeBytes(of: n) {
@@ -107,7 +107,7 @@ extension BinaryStore.Box {
                 }
             }
         case 16:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 for n in intArr {
                     withUnsafeBytes(of: n) {
@@ -199,7 +199,7 @@ extension BinaryStore.Box {
                 }
             }
         case 32:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 for n in intArr {
                     withUnsafeBytes(of: n) {
@@ -289,7 +289,7 @@ extension BinaryStore.Box {
                 }
             }
         default:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 for n in intArr {
                     withUnsafeBytes(of: n) {

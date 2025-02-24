@@ -3,11 +3,11 @@ extension BinaryStore.Box {
     /// Get Array From Range
     // data:
     //   [UInt with bitWidth]
-    public func getIntArray<T: FixedWidthInteger>(_ range: Range<Int>, itemWidth: BinaryStore.BitWidth) -> [T] {
+    public func getIntArray<T: FixedWidthInteger>(_ range: Range<Int>, intWidth: BinaryStore.BitWidth) -> [T] {
         
         switch T.bitWidth {
         case 8:
-            return stride(from: range.lowerBound, to: range.upperBound, by: itemWidth.rawValue).map { i in
+            return stride(from: range.lowerBound, to: range.upperBound, by: intWidth.rawValue).map { i in
                 var result: T = 0
                 withUnsafeMutablePointer(to: &result) { ptr in
                     let rawPtr = UnsafeMutableRawPointer(ptr)
@@ -16,7 +16,7 @@ extension BinaryStore.Box {
                 return result
             }
         case 16:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 return stride(from: range.lowerBound, to: range.upperBound, by: 1).map { i in
                     var result: T = 0
@@ -30,7 +30,7 @@ extension BinaryStore.Box {
                     return result
                 }
             default:
-                return stride(from: range.lowerBound, to: range.upperBound, by: itemWidth.rawValue).map { i in
+                return stride(from: range.lowerBound, to: range.upperBound, by: intWidth.rawValue).map { i in
                     var result: T = 0
                     withUnsafeMutablePointer(to: &result) { ptr in
                         let rawPtr = UnsafeMutableRawPointer(ptr)
@@ -41,7 +41,7 @@ extension BinaryStore.Box {
                 }
             }
         case 32:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 return stride(from: range.lowerBound, to: range.upperBound, by: 1).map { i in
                     var result: T = 0
@@ -85,7 +85,7 @@ extension BinaryStore.Box {
                     return result
                 }
             default:
-                return stride(from: range.lowerBound, to: range.upperBound, by: itemWidth.rawValue).map { i in
+                return stride(from: range.lowerBound, to: range.upperBound, by: intWidth.rawValue).map { i in
                     var result: T = 0
                     withUnsafeMutablePointer(to: &result) { ptr in
                         let rawPtr = UnsafeMutableRawPointer(ptr)
@@ -98,7 +98,7 @@ extension BinaryStore.Box {
                 }
             }
         default:
-            switch itemWidth {
+            switch intWidth {
             case .bit8:
                 return stride(from: range.lowerBound, to: range.upperBound, by: 1).map { i in
                     var result: T = 0

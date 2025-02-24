@@ -34,7 +34,7 @@ extension BinaryStore.Box {
     //   ...
     // data 2:
     //   [offsetWidth] offsets
-    public func setStringArray(_ strArr: [String], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8, needOffsets: Bool = false) -> Int {
+    public func setStringArray(_ strArr: [String], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8, needOffsets: Bool = false) -> Int {
         // set string array at offset
         let offsets = setStringArray(strArr, offset: offset, offset0: index0, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
         let sz1 = offsets.isEmpty ? 0 : Int(offsets.last!) + index0 - offset
@@ -47,7 +47,7 @@ extension BinaryStore.Box {
         }
         // set offsets array in head 2
         //setIntArray<T: FixedWidthInteger>(_ intArr: [T], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth, sizeWidth: BinaryStore.BitWidth, itemWidth:
-        let sz2 = setIntArray(offsets, index: index + offsetWidth.rawValue + stringWidth.rawValue, offset: offset + sz1, offsetWidth: offsetWidth, sizeWidth: stringWidth, itemWidth: offsetWidth)
+        let sz2 = setIntArray(offsets, index: index + offsetWidth.rawValue + stringWidth.rawValue, offset: offset + sz1, offsetWidth: offsetWidth, byteWidth: byteWidth, intWidth: offsetWidth)
         // return the sum of string array bytes and offsets array bytes
         return sz1 + sz2
     }
