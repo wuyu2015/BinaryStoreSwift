@@ -6,8 +6,8 @@ extension BinaryStore.Box {
     //   offsetWidth: offset
     //   sizeWidth: size
     public func getRangeArray<T: FixedWidthInteger>(index i: Int, offsetWidth: BinaryStore.BitWidth, sizeWidth: BinaryStore.BitWidth, itemWidth: BinaryStore.BitWidth) -> [Range<T>] {
-        let off: UInt64 = getInt(i, itemWidth: offsetWidth)
-        let sz: UInt64 = getInt(i + offsetWidth.rawValue, itemWidth: sizeWidth)
+        let off: UInt64 = getInt(offset: i, itemWidth: offsetWidth)
+        let sz: UInt64 = getInt(offset: i + offsetWidth.rawValue, itemWidth: sizeWidth)
         return getRangeArray(Int(off)..<Int(off + sz), itemWidth: itemWidth)
     }
     

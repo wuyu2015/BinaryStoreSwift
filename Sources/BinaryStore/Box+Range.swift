@@ -5,7 +5,7 @@ extension BinaryStore.Box {
     //   type: lower
     //   type: upper
     public func getRange<T: FixedWidthInteger>(_ offset: Int, itemWidth: BinaryStore.BitWidth) -> Range<T> {
-        return getInt(offset, itemWidth: itemWidth)..<getInt(offset + itemWidth.rawValue, itemWidth: itemWidth)
+        return getInt(offset: offset, itemWidth: itemWidth)..<getInt(offset: offset + itemWidth.rawValue, itemWidth: itemWidth)
     }
 
     // data:

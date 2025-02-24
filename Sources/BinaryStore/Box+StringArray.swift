@@ -8,11 +8,11 @@ extension BinaryStore.Box {
     //   offsetWidth: offset
     //   sizeWidth: size
     public func getStringArray(index: Int, offsetWidth: BinaryStore.BitWidth, sizeWidth: BinaryStore.BitWidth, countWidth: BinaryStore.BitWidth, encoding: String.Encoding = .utf8) -> [String] {
-        let sz: UInt64 = getInt(index + offsetWidth.rawValue, itemWidth: sizeWidth)
+        let sz: UInt64 = getInt(offset: index + offsetWidth.rawValue, itemWidth: sizeWidth)
         if sz == 0 {
             return []
         }
-        let off: UInt64 = getInt(index, itemWidth: offsetWidth)
+        let off: UInt64 = getInt(offset: index, itemWidth: offsetWidth)
         return getStringArray(Int(off), countWidth: countWidth, sizeWidth: sizeWidth, encoding: encoding)
     }
     
