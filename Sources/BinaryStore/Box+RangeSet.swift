@@ -5,6 +5,7 @@ extension BinaryStore.Box {
     //   type: lower
     //   type: upper
     // return: the size of range
+    @discardableResult
     public func setRange<T: FixedWidthInteger>(_ range: Range<T>, offset i: Int, rangeWidth: BinaryStore.BitWidth) -> Int {
 //        if range.isEmpty {
 //            return 0

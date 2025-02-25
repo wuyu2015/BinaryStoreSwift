@@ -4,7 +4,7 @@ extension BinaryStore.Box {
     // data:
     //   rangeWidth: lower
     //   rangeWidth: upper
-    public func getRange<T: FixedWidthInteger>(_ offset: Int, rangeWidth: BinaryStore.BitWidth) -> Range<T> {
+    public func getRange<T: FixedWidthInteger>(offset: Int, rangeWidth: BinaryStore.BitWidth) -> Range<T> {
         return getInt(offset: offset, intWidth: rangeWidth)..<getInt(offset: offset + rangeWidth.rawValue, intWidth: rangeWidth)
     }
 
@@ -12,6 +12,6 @@ extension BinaryStore.Box {
     //   rangeWidth: lower
     //   rangeWidth: upper
     public func toRange<T: FixedWidthInteger>(rangeWidth: BinaryStore.BitWidth) -> Range<T> {
-        return getRange(0, rangeWidth: rangeWidth)
+        return getRange(offset: 0, rangeWidth: rangeWidth)
     }
 }
