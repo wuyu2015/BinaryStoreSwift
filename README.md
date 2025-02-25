@@ -1,7 +1,12 @@
 # BinaryStore  
 
-`BinaryStore` is a Swift Package designed for creating custom binary data files, focusing on storage efficiency. It allows developers to flexibly construct and manipulate binary file formats. In addition to the standard 8-bit, 16-bit, 32-bit, and 64-bit integer types, BinaryStore also supports non-standard integer lengths such as 24-bit, 40-bit, 48-bit, and 56-bit for more efficient storage.
+`BinaryStore` is a Swift Package designed for creating custom binary data structures. It provides developers with a flexible toolkit for building and manipulating binary file formats, with a strong focus on minimizing storage space.  
 
+When analyzing third-party binary data files, you may notice large sections of unused zero bytes. This is often caused by fixed-width integers (`FixedWidthInteger`), leading to significant space waste. To address this, `BinaryStore` supports not only standard 8-bit, 16-bit, 32-bit, and 64-bit integers but also non-standard 24-bit, 40-bit, 48-bit, and 56-bit integers. By leveraging these, you can significantly reduce unnecessary zero bytes and optimize data size.  
+
+For applications where minimizing network data size is critical, consider using custom binary data instead of JSON strings. Besides compression algorithms, eliminating redundant data bits is also an important optimization strategy.  
+
+Additionally, `BinaryStore` maintains O(1) read/write efficiency, performing on par with native array operations.
 ## Getting Started  
 
 ### Initializing `BinaryStore.box`  
@@ -15,7 +20,7 @@ var buf: [UInt8] = []
 let box = BinaryStore.Box(bytes: &buf)
 ```
 
-### Integer Storage  
+### Integer  
 
 ```swift
 // Store the number using 1 byte
@@ -36,19 +41,20 @@ print(box.count) // Output: 11
 
 The bytes of `buf` are now as follows (Little Endian):  
 
-| Index   | Byte Value | Description              |
-|---------|--------------|------------------------|
-| 0         | 0x7B           | 123                          |
-| 1         | 0xFF           | 65535                      |
-| 2         | 0xFF           |                                 |
-| 3         | 0x00           | 65536                      |
-| 4         | 0x00           |                                 |
-| 5         | 0x01           |                                 |
-| 6         | 0x33           | 13888888888          |
-| 7         | 0xBD          |                                 |
-| 8         | 0x7A           |                                 |
-| 9         | 0x03           |                                 |
-| 10       | 0x08           |                                 |
+| Address | Byte Value | Description |
+|-|-|-|
+|-|-|-|
+| 0 | 0x7B | 123 |
+| 1 | 0xFF | 65535 |
+| 2 | 0xFF | |
+| 3 | 0x00 | 65536 |
+| 4 | 0x00 | |
+| 5 | 0x01 | |
+| 6 | 0x33 | 13888888888 |
+| 7 | 0xBD | |
+| 8 | 0x7A | |
+| 9 | 0x03 | |
+| 10 | 0x08 | |
 
 ```swift
 // Read as Integer
@@ -64,7 +70,7 @@ let n4: Int = box.getInt(offset: 6, intWidth: .bit40)
 // Prepare data
 let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]
 
-// Write the array at an offset of 64K, and store this offset at position 10
+// Store the array
 box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: .bit8)
 
 // Total bytes: 1024 * 64 + arr.count bytes, 
@@ -72,26 +78,35 @@ box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: 
 print(box.count) // Output: 65544
 ```
 
+> Parameter description:  
+> 1. `index`: Index address  
+> 2. `offset`: Data address  
+> 3. `arrayWidth`: Array length width  
+> 4. `intWidth`: Integer width  
+
 The bytes of `buf` are now as follows (Little Endian):  
 
-| Index      | Byte Value | Description      |
-|-----------|-------------|-------------------|
-| 0             | 0x0           | Unused             |
-| ...            | 0x0           | Unused             |
-| 10           | 0x00         | Offset: 65536    |
-| 11           | 0x00         |                          |
-| 12           | 0x01         |                          |
-| 13           | 0x00         | (Offset end)      |
-| 14           | 0x08         | Array count: 8  |
-| ...            | 0x0           | Unused            |
-| 65536     | 0x01         | 1                       |
-| 65537     | 0x02         | 2                       |
-| 65538     | 0x03         | 3                       |
-| 65539     | 0x04         | 4                       |
-| 65540     | 0xFF         | -1 or 255          |
-| 65541     | 0xFE         | -2 or 254          |
-| 65542     | 0xFD         | -3 or 253         |
-| 65543     | 0xFC         | -4 or 252         |
+| Address | Byte Value | Meaning | Description |
+|-|-|-|-|
+| ... | 0x0 | | Unused |
+| 10 | 0x00 | 65536 | Data address (stored in 4 bytes) |
+| 11 | 0x00 | | |
+| 12 | 0x01 | | |
+| 13 | 0x00 | | |
+| 14 | 0x8 | 8 | Data size (stored in 4 bytes) |
+| 15 | 0x00 | | |
+| 16 | 0x00 | | |
+| 17 | 0x00 | | |
+| ... | 0x0 | | Unused |
+| 65536 | 0x01 | 1 | |
+| 65537 | 0x02 | 2 | |
+| 65538 | 0x03 | 3 | |
+| 65539 | 0x04 | 4 | |
+| 65540 | 0xFF | -1 or 255 | |
+| 65541 | 0xFE | -2 or 254 | |
+| 65542 | 0xFD | -3 or 253 | |
+| 65543 | 0xFC | -4 or 252 | |
+
 
 ```swift
 // Now, we read the array using the index value
@@ -121,41 +136,45 @@ print(result3)
 ```swift
 let s = "Hello world!"
 
-// Write the string at offset 100, storing the index at position 0
+// Store the string
 box.setString(s, index: 0, offset: 100)
 ```
 
-Now, the bytes in `buf` are as follows (Little Endian):
+> Parameter Explanation:
+> 1. `index`: Index address
+> 2. `offset`: Data address
 
-| Index  | Byte Value | Description            |
-|--------|------------|------------------------|
-| 0        | 0x0          | Offset: 65536           |
-| 1        | 0x0          |                                  |
-| 2        | 0x1          |                                  |
-| 3        | 0x0          | (Offset end)              |
-| ...       | 0x0          | Unused                     |
-| 100    | 0xC         | Byte count: 12          |
-| 101    | 0x48        | "H"                           |
-| 102    | 0x65        | "e"                            |
-| 103    | 0x6C        | "l"                             |
-| 104    | 0x6C        | "l"                             |
-| 105    | 0x6F        | "o"                            |
-| 106    | 0x20        | " " (space)                |
-| 107    | 0x77        | "w"                           |
-| 108    | 0x6F        | "o"                            |
-| 109    | 0x72        | "r"                             |
-| 110    | 0x6C        | "l"                             |
-| 111    | 0x64        | "d"                            |
-| 112    | 0x21        | "!"                             |
+Now the bytes in `buf` are as follows (Little Endian):
+
+| Index | Byte Value | Meaning | Description |
+|-------|-----------|---------|-------------|
+| 0     | 0x64      | 100     | Data address (stored in 4 bytes) |
+| 1     | 0x0       |         |             |
+| 2     | 0x0       |         |             |
+| 3     | 0x0       |         |             |
+| ...   | 0x0       |         | Unused      |
+| 100   | 0xC       | 12      | String length (stored in 1 byte) |
+| 101   | 0x48      | "H"     |             |
+| 102   | 0x65      | "e"     |             |
+| 103   | 0x6C      | "l"     |             |
+| 104   | 0x6C      | "l"     |             |
+| 105   | 0x6F      | "o"     |             |
+| 106   | 0x20      | " "     |             |
+| 107   | 0x77      | "w"     |             |
+| 108   | 0x6F      | "o"     |             |
+| 109   | 0x72      | "r"     |             |
+| 110   | 0x6C      | "l"     |             |
+| 111   | 0x64      | "d"     |             |
+| 112   | 0x21      | "!"     |             |
 
 ```swift
-// Retrieve the string using the index
+// Retrieve the string using index (0)
 let s1 = box.getString(index: 0)
 
 // Output: Hello world!
 print(s1)
 
-// Or retrieve the string directly using offset 100
+// Or retrieve the string directly using offset (100)
 let s2 = box.getString(offset: 100)
 
 // Output: Hello world!
@@ -165,16 +184,77 @@ print(s2)
 ### String Arrays  
 
 ```swift
-let arr = ["a", "b", "c", "Hello world!"]
+let arr = ["Hello world!", "a", "ab", "abc"]
 
-// Write the string array at offset 64K, storing the index at position 0
-box.setStringArray(arr, index: 0, offset: 64 * 1024, arrayWidth: .bit8, stringWidth: .bit8)
+// Store the string array
+box.setStringArray(arr, index: 0, offset: 100, offsetWidth: .bit16, byteWidth: .bit16, arrayWidth: .bit8, withArrayIndex: true)
+```
 
-// Retrieve the string array using the index
-_ = getStringArray(index: 0, offsetWidth: .bit32, arrayWidth: .bit8, stringWidth: .bit8)
+> Parameter Explanation:
+> 1. `index`: Index address
+> 2. `offset`: Data address
+> 3. `offsetWidth`: Data address width (default: `.bit32`)
+> 4. `byteWidth`: Data byte size width (default: `.bit32`)
+> 5. `arrayWidth`: Array length width (no default value)
+> 6. `withArrayIndex: true`: Whether to generate an index for data addresses (default: `false`, meaning no index is generated)
 
-// Or retrieve it directly using the offset at 64K
-_ = getString(64 * 1024, arrayWidth: .bit8, countWidth: .bit8)
+Now the bytes in `buf` are as follows (Little Endian):
+
+| Address | Byte Value | Meaning | Description |
+|---------|-----------|---------|-------------|
+| 0       | 0x64      | 100     | Data address (stored in 2 bytes) |
+| 1       | 0x0       |         |             |
+| 2       | 0x19      | 25      | Data byte size (stored in 2 bytes) |
+| 3       | 0x0       |         |             |
+| 4       | 0x7D      | 125     | Index address (stored in 2 bytes) |
+| 6       | 0x0       |         |             |
+| 7       | 0x6       | 6       | Index byte size (stored in 2 bytes) |
+| 8       | 0x0       |         |             |
+| ...     | 0x0       |         | Unused      |
+| 100     | 0x4       | 4       | Array length (stored in 1 byte) |
+| 101     | 0xC       | 12      | Length of "Hello world!" (stored in 1 byte) |
+| 102     | 0x48      | "H"     |             |
+| 103     | 0x65      | "e"     |             |
+| 104     | 0x6C      | "l"     |             |
+| 105     | 0x6C      | "l"     |             |
+| 106     | 0x6F      | "o"     |             |
+| 107     | 0x20      | " "     |             |
+| 108     | 0x77      | "w"     |             |
+| 109     | 0x6F      | "o"     |             |
+| 110     | 0x72      | "r"     |             |
+| 111     | 0x6C      | "l"     |             |
+| 112     | 0x64      | "d"     |             |
+| 113     | 0x21      | "!"     |             |
+| 114     | 0x1       | 1       | Length of "a" (stored in 1 byte) |
+| 115     | 0x61      | "a"     |             |
+| 116     | 0x2       | 2       | Length of "ab" (stored in 1 byte) |
+| 117     | 0x61      | "a"     |             |
+| 118     | 0x62      | "b"     |             |
+| 119     | 0x3       | 3       | Length of "abc" (stored in 1 byte) |
+| 120     | 0x61      | "a"     |             |
+| 121     | 0x62      | "b"     |             |
+| 122     | 0x63      | "c"     |             |
+| 123     | 0x65      | 101     | Index start: Address of "Hello world!" (stored in 2 bytes) |
+| 124     | 0x0       |         |             |
+| 125     | 0x72      | 114     | Address of "a" (stored in 2 bytes) |
+| 126     | 0x0       |         |             |
+| 127     | 0x74      | 116     | Address of "ab" (stored in 2 bytes) |
+| 128     | 0x0       |         |             |
+| 129     | 0x79      | 119     | Address of "abc" (stored in 2 bytes) |
+| 130     | 0x0       |         |             |
+
+```swift
+// Retrieve the string array using index (0)
+let result1 = box.getStringArray(index: 0, offsetWidth: .bit16, byteWidth: .bit16, arrayWidth: .bit8)
+
+// Output: ["Hello world!", "a", "ab", "abc"]
+print(result1)
+
+// Or retrieve the string array directly using offset (100)
+let result2 = box.getStringArray(offset: 100, arrayWidth: .bit8)
+
+// Output: ["Hello world!", "a", "ab", "abc"]
+print(result2)
 ```
 
 ### Ranges  
@@ -183,29 +263,69 @@ _ = getString(64 * 1024, arrayWidth: .bit8, countWidth: .bit8)
 let range = 0..<128
 
 // Store the range
-box.setRangeArray(range, index: 0, offset: 64 * 1024, itemWidth: .bit8)
+box.setRange(range, offset: 0, rangeWidth: .bit16)
+```
 
-// Retrieve the range using the index
-_ = setRange(index: 0, offsetWidth: .bit32, itemWidth: .bit8)
+Now, the bytes in `buf` are as follows (Little Endian):
 
-// Retrieve the range directly using the offset
-_ = getRange(64 * 1024, 100, itemWidth: .bit8)
+| Address | Byte Value | Meaning | Description |
+|---------|-----------|---------|-------------|
+| 0       | 0x0       | 0       | `range` lowerBound |
+| 1       | 0x0       |         |             |
+| 2       | 0x80      | 128     | `range` upperBound |
+| 3       | 0x0       |         |             |
+
+```swift
+// Retrieve the range directly using offset (0)
+let result: Range<Int> = box.getRange(offset: 0, rangeWidth: .bit16)
+
+// Output: 0..<128
+print(result)
 ```
 
 ### Range Arrays  
 
 ```swift
-let arr: [Range<Int>] = [
-    0..<128,
-    128..<256,
+let rangeArr: [Range<Int>] = [
+    1..<128,
     256..<512,
+    1024..<4096
 ]
 
 // Store the range array
-box.setRangeArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, countWidth: .bit32, itemWidth: .bit32)
+box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
+```
 
-// Retrieve the range array using the index
-let result: [Range<Int>] = getRangeArray(index: 0, offsetWidth: .bit32, countWidth: .bit32, itemWidth: .bit32)
+| Address | Byte Value | Meaning | Description |
+|-|-|-|-|
+| 0 | 0x64 | 100 | Data address (stored in 4 bytes) |
+| 1 | 0x0 | | |
+| 2 | 0x0 | | |
+| 3 | 0x0 | | |
+| 4 | 0xD | 12 | Data size (stored in 4 bytes) |
+| 5 | 0x0 | | |
+| 6 | 0x0 | | |
+| 7 | 0x0 | | |
+| ... | 0x0 | | Unused |
+| 100 | 0x0 | 0 | `range[0]` lowerBound |
+| 101 | 0x0 | | |
+| 102 | 0x80 | 128 | `range[0]` upperBound |
+| 103 | 0x0 | | |
+| 104 | 0x0 | 256 | `range[1]` lowerBound |
+| 105 | 0x1 | | |
+| 106 | 0x0 | 512 | `range[1]` upperBound |
+| 107 | 0x2 | | |
+| 108 | 0x0 | 1024 | `range[2]` lowerBound |
+| 109 | 0x4 | | |
+| 110 | 0x0 | 4096 | `range[2]` upperBound |
+| 111 | 0x10 | | |
+
+```swift
+// Retrieve the range array by index
+let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16)
+
+// Output: [Range(1..<128), Range(256..<512), Range(1024..<4096)]
+print(result)
 ```
 
 ## Installation  
@@ -235,7 +355,13 @@ This project is licensed under the MIT License.
 
 # BinaryStore  
 
-`BinaryStore` 是一个 Swift Package，为创建自定义二进制数据文件而设计，重点在于节省存储空间。它允许开发者灵活地构建和操作二进制文件格式。除了标准的 8 位、16 位、32 位、64 位整型之外，BinaryStore 还支持 24 位、40 位、48 位和 56 位的非主流整型。  
+`BinaryStore` 是一个 Swift Package，是创建自定义二进制数据的工具包，它允许开发者灵活地构建和操作二进制文件格式。 `Swift Package` 的设计重点在于节省存储空间。
+
+如果你有研究别人的二进制数据文件，会很容易发现文件的数据空隙里存在大量的 0 值，这主要是由固定长度整形 （FixedWidthInteger）造成的，这是巨大的空间浪费。因此，除了标准的 8 位、16 位、32 位、64 位整型之外，`BinaryStore` 还支持 24 位、40 位、48 位和 56 位的非主流整型。如果你善用它们，可以显著减少这些 0 值，让数据大小得到优化。  
+
+对网络数据大小有极端要求的情况下，应该考虑使用自定义二进制数据替代 JSON 字符串，除压缩算法外，避免无效数据位也是重要的考虑。
+
+另外，`BinaryStore` 在数据读写效率方面保持了 O(1) 水平，和操作原生数组无异。
 
 ## 快速开始  
 
@@ -250,7 +376,7 @@ var buf: [UInt8] = []
 let box = BinaryStore.Box(bytes: &buf)
 ```
 
-### 整型存储  
+### 整型
 
 ```swift
 // 用 1 字节存储
@@ -271,19 +397,19 @@ print(box.count) // 输出：11
 
 现在 `buf` 的字节如下（Little Endian）：
 
-| 索引    | 字节值        | 说明                         |
-|--------|---------------|------------------------|
-| 0         | 0x7B           | 123                          |
-| 1         | 0xFF           | 65535                      |
-| 2         | 0xFF           |                                 |
-| 3         | 0x00           | 65536                      |
-| 4         | 0x00           |                                 |
-| 5         | 0x01           |                                 |
-| 6         | 0x33           | 13888888888          |
-| 7         | 0xBD          |                                 |
-| 8         | 0x7A           |                                 |
-| 9         | 0x03           |                                 |
-| 10       | 0x08           |                                 |
+| 索引 | 字节值 | 说明 |
+|-|-|-|
+| 0 | 0x7B | 123 |
+| 1 | 0xFF | 65535 |
+| 2 | 0xFF | |
+| 3 | 0x00 | 65536 |
+| 4 | 0x00 | |
+| 5 | 0x01 | |
+| 6 | 0x33 | 13888888888 |
+| 7 | 0xBD | |
+| 8 | 0x7A | |
+| 9 | 0x03 | |
+| 10 | 0x08 | |
 
 ```swift
 // 读取整数
@@ -299,7 +425,7 @@ let n4: Int = box.getInt(offset: 6, intWidth: .bit40)
 // 准备数据
 let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]  
 
-// 在 64K 偏移处写入数组，该偏移量则存储在位置 10
+// 储存数组
 box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: .bit8)
 
 // 总字节：1024 * 64 + arr.count 字节，
@@ -307,26 +433,34 @@ box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: 
 print(box.count) // 输出：65544
 ```
 
+> 参数说明：
+> 1. `index`: 索引地址
+> 2. `offset`: 数据地址
+> 3. `arrayWidth`: 数组长度宽度
+> 4. `intWidth`: 整型宽度
+
 现在 `buf` 的字节如下（Little Endian）：
 
-| 索引       | 字节值     | 说明                         |
-|-----------|------------|------------------------|
-| 0            | 0x0          | 未使用                      |
-| ...           | 0x0          | 未使用                      |
-| 10          | 0x00        | 偏移量：65536        |
-| 11          | 0x00        |                                  |
-| 12          | 0x01        |                                  |
-| 13          | 0x00        | （偏移量结束）        |
-| 14          | 0x8          | 数组元素个数：8      |
-| ...           | 0x0          | 未使用                      |
-| 65536    | 0x01        | 1                               |
-| 65537    | 0x02        | 2                               |
-| 65538    | 0x03        | 3                               |
-| 65539    | 0x04        | 4                               |
-| 65540    | 0xFF        | -1 或 255                  |
-| 65541    | 0xFE        | -2 或 254                  |
-| 65542    | 0xFD        | -3 或 253                 |
-| 65543    | 0xFC        | -4 或 252                 |
+| 地址 | 字节值 | 字节意义 |说明|
+|-|-|-|-|
+| ... | 0x0 |  |未使用|
+| 10 | 0x00 | 65536 |数据地址（4 字节储存）|
+| 11 | 0x00 | ||
+| 12 | 0x01 | ||
+| 13 | 0x00 |  ||
+| 14 | 0x8 | 8 |数据字节数（4 字节储存）|
+| 15 | 0x00 |  ||
+| 16 | 0x00 |  ||
+| 17 | 0x00 |  ||
+| ... | 0x0 |  |未使用|
+| 65536 | 0x01 | 1 ||
+| 65537 | 0x02 | 2 ||
+| 65538 | 0x03 | 3 ||
+| 65539 | 0x04 | 4 ||
+| 65540 | 0xFF | -1 或 255 ||
+| 65541 | 0xFE | -2 或 254 ||
+| 65542 | 0xFD | -3 或 253 ||
+| 65543 | 0xFC | -4 或 252 ||
 
 ```swift
 // 现在，我们使用索引值读取数组
@@ -355,41 +489,45 @@ print(result3)
 ```swift
 let s = "Hello world!"
 
-// 在 100 偏移处写入字符串，索引存储在 0 位置
+// 储存字符串
 box.setString(s, index: 0, offset: 100)
 ```
 
+> 参数说明：
+> 1. `index`: 索引地址
+> 2. `offset`: 数据地址
+
 现在 `buf` 的字节如下（Little Endian）：
 
-| 索引       | 字节值     | 说明                                 |
-|-----------|------------|-----------------------------|
-| 0            | 0x0          | 偏移量：65536                |
-| 1            | 0x0          |                                         |
-| 2            | 0x1          |                                         |
-| 3            | 0x0          | （偏移量结束）               |
-| ...           | 0x0          | 未使用                             |
-| 100        | 0xC         | 字节数：12                      |
-| 101        | 0x48        | "H"                                  |
-| 102        | 0x65        | "e"                                   |
-| 103        | 0x6C        | "l"                                    |
-| 104        | 0x6C        | "l"                                    |
-| 105        | 0x6F        | "o"                                   |
-| 106        | 0x20        | " "                                    |
-| 107        | 0x77        | "w"                                  |
-| 108        | 0x6F        | "o"                                  |
-| 109        | 0x72        | "r"                                   |
-| 110        | 0x6C        | "l"                                   |
-| 111        | 0x64        | "d"                                  |
-| 112        | 0x21        | "!"                                   |
+| 索引 | 字节值 | 字节意义 |说明|
+|-|-|-|-|
+| 0 | 0x64 | 100 |数据地址（4 字节储存）|
+| 1 | 0x0 | ||
+| 2 | 0x0 | ||
+| 3 | 0x0 |  ||
+| ... | 0x0 |  |未使用|
+| 100 | 0xC | 12 |字符串字节数（1 字节储存）|
+| 101 | 0x48 | "H" ||
+| 102 | 0x65 | "e" ||
+| 103 | 0x6C | "l" ||
+| 104 | 0x6C | "l" ||
+| 105 | 0x6F | "o" ||
+| 106 | 0x20 | " " ||
+| 107 | 0x77 | "w" ||
+| 108 | 0x6F | "o" ||
+| 109 | 0x72 | "r" ||
+| 110 | 0x6C | "l" ||
+| 111 | 0x64 | "d" ||
+| 112 | 0x21 | "!" ||
 
 ```swift
-// 通过索引取出字符串
+// 通过索引（0）取出字符串
 let s1 = box.getString(index: 0))
 
 // 输出：Hello world!
 print(s1)
 
-// 或者直接通过偏移值 100 取出字符串
+// 或直接通过地址（100）取出字符串
 let s2 = box.getString(offset: 100)
 
 // 输出：Hello world!
@@ -399,16 +537,78 @@ print(s2)
 ### 字符串数组  
 
 ```swift
-let arr = ["a", "b", "c", "Hello world!"]
+let arr = ["Hello world!", "a", "ab", "abc"]
 
-// 在 64K 偏移处写入字符串数组，索引存储在 0 位置
-box.setStringArray(arr, index: 0, offset: 64 * 1024, arrayWidth: .bit24)
+// 储存字符串数组
+box.setStringArray(arr, index: 0, offset: 100, offsetWidth: .bit16, byteWidth: .bit16, arrayWidth: .bit8, withArrayIndex: true)
+```
 
-// 通过索引取出字符串数组
-_ = getStringArray(index: 0, offsetWidth: .bit32, arrayWidth: .bit24)
+> 参数说明：
+> 1. `index`: 索引地址
+> 2. `offset`: 数据地址
+> 3. `offsetWidth`: 数据地址宽度，默认 .bit32
+> 4. `byteWidth`: 数据字节数宽度，默认 .bit32
+> 5. `arrayWidth`: 数组长度宽度，无默认值
+> 5. `withArrayIndex: true`: 是否生成数据地址的索引，默认 false，不生成。
 
-// 或者直接通过偏移值（64K 处）取出字符串数组
-_ = getString(64 * 1024, 100, arrayWidth: .bit8)
+现在 `buf` 的字节如下（Little Endian）：
+
+| 地址 | 字节值 | 字节意义 | 说明 |
+|-|-|-|-|
+| 0 | 0x64 | 100 | 数据地址（2 字节储存） |
+| 1 | 0x0 | | |
+| 2 | 0x19 | 25 | 数据字节数（2 字节储存） |
+| 3 | 0x0 | | |
+| 4 | 0x7D | 125 | 索引地址（2 字节储存） |
+| 6 | 0x0 | | |
+| 7 | 0x6 | 6 | 索引字节数（2 字节储存） |
+| 8 | 0x0 | | |
+| ... | 0x0 |  | 未使用 |
+| 100 | 0x4 | 4 | 数组长度（1 字节储存） |
+| 101 | 0xC | 12 | "Hello world!" 长度（1 字节储存） |
+| 102 | 0x48 | "H" | |
+| 103 | 0x65 | "e" | |
+| 104 | 0x6C | "l" | |
+| 105 | 0x6C | "l" | |
+| 106 | 0x6F | "o" | |
+| 107 | 0x20 | " " | |
+| 108 | 0x77 | "w" | |
+| 109 | 0x6F | "o" | |
+| 110 | 0x72 | "r" | |
+| 111 | 0x6C | "l" | |
+| 112 | 0x64 | "d" | |
+| 113 | 0x21 | "!" | |
+| 114 | 0x1 | 1 | "a" 长度（1 字节储存） |
+| 115 | 0x61 | "a" | |
+| 116 | 0x2 | 2 | "ab" 长度（1 字节储存） |
+| 117 | 0x61 | "a" | |
+| 118 | 0x62 | "b" | |
+| 119 | 0x3 | 3 | "abc" 长度（1 字节储存） |
+| 120 | 0x61 | "a" | |
+| 121 | 0x62 | "b" | |
+| 122 | 0x63 | "c" | |
+| 123 | 0x65 | 101 | 索引开始："Hello world!"地址（2 字节储存） |
+| 124 | 0x0 | | |
+| 125 | 0x72 | 114 | "a" 地址（ 2 字节储存） |
+| 126 | 0x0 | | |
+| 127 | 0x74 | 116 | "ab" 地址（ 2 字节储存） |
+| 128 | 0x0 | | |
+| 129 | 0x79 | 119 | "abc" 地址（2 字节储存） |
+| 130 | 0x0 | | |
+
+
+```swift
+// 通过索引（0）取出字符串数组
+let result1 = box.getStringArray(index: 0, offsetWidth: .bit16, byteWidth: .bit16, arrayWidth: .bit8)
+
+// 输出：["Hello world!", "a", "ab", "abc"]
+print(result1)
+
+// 或直接通过地址（100）取出字符串数组
+let result2 = box.getStringArray(offset: 100, arrayWidth: .bit8)
+
+// 输出：["Hello world!", "a", "ab", "abc"]
+print(result2)
 ```
 
 ### Range  
@@ -417,29 +617,70 @@ _ = getString(64 * 1024, 100, arrayWidth: .bit8)
 let range = 0..<128
 
 // 存储 range
-box.setRangeArray(range, index: 0, offset: 64 * 1024, itemWidth: .bit8)
+box.setRange(range, offset: 0, rangeWidth: .bit16)
+```
 
-// 通过索引取出 range
-_ = setRange(index: 0, offsetWidth: .bit32, itemWidth: .bit8)
+现在 `buf` 的字节如下（Little Endian）：
 
-// 直接通过偏移值取出 range
-_ = getRange(64 * 1024, 100, itemWidth: .bit8)
+| 地址 | 字节值 | 字节意义 | 说明 |
+|-|-|-|-|
+| 0 | 0x0 | 0 | range 的 lowerBound |
+| 1 | 0x0 | ||
+| 2 | 0x80 | 128 | range 的 upperBound |
+| 3 | 0x0 | ||
+
+```swift
+// 直接通过偏移值（0）取出 range
+let result: Range<Int> = box.getRange(offset: 0, rangeWidth: .bit16)
+
+// 输出: 0..<128
+print(result)
 ```
 
 ### Range 数组  
 
 ```swift
-let arr: [Range<Int>] = [
-    0..<128,
-    128..<256,
+let rangeArr: [Range<Int>] = [
+    1..<128,
     256..<512,
+    1024..<4096
 ]
 
 // 存储 range 数组
-box.setRangeArray(arr, index: 0, offset: 64 * 1024, offsetWidth: .bit32, countWidth: .bit32, itemWidth: .bit32)
+box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
+```
 
+| 地址 | 字节值 | 字节意义 |说明|
+|-|-|-|-|
+| 0 | 0x64 | 100 |数据地址（4 字节储存）|
+| 1 | 0x0 | ||
+| 2 | 0x0 | ||
+| 3 | 0x0 |  ||
+| 4 | 0xD | 12 |数据字节数（4 字节储存）|
+| 5 | 0x0 | ||
+| 6 | 0x0 | ||
+| 7 | 0x0 |  ||
+| ... | 0x0 |  |未使用|
+| 100 | 0x0 | 0 |range[0] 的 lowerBound|
+| 101 | 0x0 |  ||
+| 102 | 0x80 | 128 |range[0] 的 upperBound|
+| 103 | 0x0 |  ||
+| 104 | 0x0 | 256 |range[1] 的 lowerBound|
+| 105 | 0x1 |  ||
+| 106 | 0x0 | 512 |range[1] 的 upperBound|
+| 107 | 0x2 |  ||
+| 108 | 0x0 | 1024 |range[2] 的 lowerBound|
+| 109 | 0x4 |  ||
+| 110 | 0x0 | 4096 |range[2] 的 upperBound|
+| 111 | 0x10 |  ||
+
+
+```swift
 // 通过索引取出 range 数组
-let result: [Range<Int>] = getRangeArray(index: 0, offsetWidth: .bit32, countWidth: .bit32, itemWidth: .bit32)
+let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16)
+
+// 输出：[Range(1..<128), Range(256..<512), Range(1024..<4096)]
+print(result)
 ```
 
 ## 安装  
