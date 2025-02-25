@@ -8,7 +8,7 @@ For applications where minimizing network data size is critical, consider using 
 
 Additionally, `BinaryStore` maintains O(1) read/write efficiency, close to native array operations in performance.
 
-The following code example demonstrates simple cases of storing `Int`, `Int` arrays, `String`, `String` arrays, `Range`, and `Range` arrays in binary. In practical scenarios, these data types are often stored in a mixed manner, usually corresponding to a Swift `Struct`. This kind of code needs to be written by you. In the source code, there are functions that support plist storage, but using plist to support binary storage is not the main goal of `BinaryStore`, so they are not provided in the demo code. Support for floating-point numbers is not yet implemented but may be added in future versions.
+The following code example demonstrates simple cases of storing `Int`, `Int` arrays, `String`, `String` arrays, `Range`, and `Range` arrays in binary. In practical scenarios, these data types are often stored in a mixed manner, usually corresponding to a Swift `Struct` —this kind of code needs to be written by you. In the source code, there are functions that support plist storage, but using plist to support binary storage is not the main goal of `BinaryStore`, so they are not provided in the demo code. Support for floating-point numbers is not yet implemented but may be added in future versions.
 
 ## Getting Started  
 
@@ -361,7 +361,7 @@ This project is licensed under the MIT License.
 
 此外，`BinaryStore` 保持 O(1) 的读写效率，性能接近原生数组操作。
 
-以下代码示例演示了将 `Int`、`Int` 数组、`String`、`String` 数组、`Range` 和 `Range` 数组存储为二进制的简单案例。在实际的应用场景中，这些数据类型通常是混合存储的，通常对应于 Swift 的一个 `Struct`。这样的代码需要你自己来完成。在源代码中，虽然有支持 plist 存储的函数，但使用 plist 来支持二进制存储并不是 `BinaryStore` 的最终目标，因此在演示代码中没有提供。浮点数的支持目前尚未实现，但可能会在未来版本中添加。
+以下代码示例演示了将 `Int`、`Int` 数组、`String`、`String` 数组、`Range` 和 `Range` 数组存储为二进制的简单案例。在实际的应用场景中，这些数据类型通常是混合存储的，并对应于 Swift 的一个 `Struct`。这样的代码需要你自己来完成。在源代码中，虽然有支持 plist 存储的函数，但使用 plist 来支持二进制存储并不是 `BinaryStore` 的最终目标，因此在演示代码中没有提供。浮点数的支持目前尚未实现，但可能会在未来版本中添加。
 
 ## 快速开始  
 
