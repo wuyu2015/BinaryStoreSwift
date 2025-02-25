@@ -120,7 +120,7 @@ let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, arrayWidt
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 print(result2)
 
-// Read with [UInt32], note that it has the same effect as [UInt8] because we used the .bit8 tag
+// Read with [UInt32], note that it has the same effect as [UInt8]
 let result3: [UInt32] = box.getIntArray(index: 10, offsetWidth: .bit32, arrayWidth: .bit8, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
@@ -472,7 +472,7 @@ let result2: [UInt8] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .
 // 输出：[1, 2, 3, 4, 255, 254, 253, 252]
 print(result2)
 
-// 用 [UInt32] 读取，注意它的效果和 [UInt8] 相同，因为我们使用了 `.bit8` 标记
+// 用 [UInt32] 读取，注意它的效果和 [UInt8] 相同
 let result3: [UInt32] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
