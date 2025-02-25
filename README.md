@@ -321,7 +321,7 @@ box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
 // Retrieve the range array by index
 let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16, sign: .signed)
 
-// Output: [Range(1..<128), Range(256..<512), Range(1024..<4096)]
+// Output: [Range(-128..<128), Range(256..<512), Range(1024..<4096)]
 print(result)
 ```
 
@@ -434,7 +434,6 @@ box.setIntArray(arr, index: 10, offset: 1024 * 64, intWidth: .bit8)
 > 参数说明：
 > 1. `index`: 索引地址
 > 2. `offset`: 数据地址
-> 3. `arrayWidth`: 数组长度宽度
 > 4. `intWidth`: 整型宽度
 
 现在 `buf` 的字节如下（Little Endian）：
@@ -677,7 +676,7 @@ box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
 // 通过索引取出 range 数组
 let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16, sign: .signed)
 
-// 输出：[Range(1..<128), Range(256..<512), Range(1024..<4096)]
+// 输出：[Range(-128..<128), Range(256..<512), Range(1024..<4096)]
 print(result)
 ```
 
