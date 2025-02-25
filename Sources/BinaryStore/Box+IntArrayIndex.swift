@@ -15,7 +15,7 @@ extension BinaryStore.Box {
     /// Set Array At Index
     // head:
     //   offsetWidth: off
-    //   byteWidth: size of data bytes
+    //   byteWidth: size of array bytes
     // data:
     //   [UInt8 with intWidth]
     // return: byte size of the int array
