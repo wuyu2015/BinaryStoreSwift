@@ -50,6 +50,8 @@ final class DemoTests: XCTestCase {
         
         box.setString(s, index: 0, offset: 100)
         
+        pr(buf)
+        
         let sz: Int = box.getInt(offset: 100)
         pr(sz)
         
@@ -58,5 +60,63 @@ final class DemoTests: XCTestCase {
         
         let s2 = box.getString(offset: 100)
         pr(s2)
+    }
+    
+    func testDemoStringArray() {
+        var buf: [UInt8] = []
+        let box = BinaryStore.Box(bytes: &buf)
+        
+        let arr = ["Hello world!", "a", "ab", "abc"]
+
+        // 储存字符串数组
+        box.setStringArray(arr, index: 0, offset: 100, offsetWidth: .bit16, byteWidth: .bit16, arrayWidth: .bit8, withArrayIndex: true)
+        
+        // 通过索引（0）取出字符串数组
+        let result1 = box.getStringArray(index: 0, offsetWidth: .bit16, byteWidth: .bit16, arrayWidth: .bit8)
+
+        // 输出：["Hello world!", "a", "ab", "abc"]
+        pr(result1)
+
+        // 或直接通过地址（100）取出字符串数组
+        let result2 = box.getStringArray(offset: 100, arrayWidth: .bit8)
+
+        // 输出：["Hello world!", "a", "ab", "abc"]
+        pr(result2)
+    }
+    
+    func testRange() {
+        var buf: [UInt8] = []
+        let box = BinaryStore.Box(bytes: &buf)
+        
+        let range = 0..<128
+
+        // 存储 range
+        box.setRange(range, offset: 0, rangeWidth: .bit16)
+        
+        // 直接通过偏移值（0）取出 range
+        let result: Range<Int> = box.getRange(offset: 0, rangeWidth: .bit16)
+
+        // 输出:
+        pr(result)
+    }
+    
+    func testRangeArray() {
+        var buf: [UInt8] = []
+        let box = BinaryStore.Box(bytes: &buf)
+        
+        let rangeArr: [Range<Int>] = [
+            1..<128,
+            256..<512,
+            1024..<4096
+        ]
+
+        // 存储 range 数组
+        box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
+        
+        // 通过索引取出 range 数组
+        let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16)
+
+        // 输出:
+        pr(result)
     }
 }
