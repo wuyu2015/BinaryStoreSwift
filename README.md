@@ -285,7 +285,7 @@ print(result)
 
 ```swift
 let rangeArr: [Range<Int>] = [
-    1..<128,
+    -128..<128,
     256..<512,
     1024..<4096
 ]
