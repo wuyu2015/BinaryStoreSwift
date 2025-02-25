@@ -335,7 +335,7 @@ To integrate `BinaryStore` into your Swift project, add the following to your `P
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/wuyu2015/BinaryStoreSwift.git", from: "0.0.1")
+    .package(url: "https://github.com/wuyu2015/BinaryStoreSwift.git", from: "0.0.2")
 ]
 ```
 
@@ -344,7 +344,7 @@ dependencies: [
 1. Open your Xcode project.  
 2. Go to **File** -> **Swift Packages** -> **Add Package Dependency**.  
 3. Enter the GitHub repository URL: `https://github.com/wuyu2015/BinaryStoreSwift.git`.  
-4. Choose the desired version (e.g., `0.0.1`) and complete the installation.  
+4. Choose the desired version (e.g., `0.0.2`) and complete the installation.  
 
 You can now use `BinaryStore` in your project.
 
@@ -691,7 +691,7 @@ print(result)
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/wuyu2015/BinaryStoreSwift.git", from: "0.0.1")
+    .package(url: "https://github.com/wuyu2015/BinaryStoreSwift.git", from: "0.0.2")
 ]
 ```
 
@@ -700,7 +700,7 @@ dependencies: [
 1. 打开你的 Xcode 项目。  
 2. 依次选择 **File** -> **Swift Packages** -> **Add Package Dependency**。  
 3. 在弹出的窗口中输入 GitHub 仓库地址：`https://github.com/wuyu2015/BinaryStoreSwift.git`。  
-4. 选择所需的版本（例如 `0.0.1`）并完成安装。  
+4. 选择所需的版本（例如 `0.0.2`）并完成安装。  
 
 这样，你就可以在项目中使用 `BinaryStore` 了。
 
