@@ -305,8 +305,8 @@ box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
 | 6 | 0x0 | | |
 | 7 | 0x0 | | |
 | ... | 0x0 | | Unused |
-| 100 | 0x1 | 1 | `rangeArr[0]` lowerBound |
-| 101 | 0x0 | | |
+| 100 | 0x80 | -128 | `rangeArr[0]` lowerBound |
+| 101 | 0xFF | | |
 | 102 | 0x80 | 128 | `rangeArr[0]` upperBound |
 | 103 | 0x0 | | |
 | 104 | 0x0 | 256 | `rangeArr[1]` lowerBound |
@@ -320,11 +320,14 @@ box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
 
 ```swift
 // Retrieve the range array by index
-let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16)
+let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16, sign: .signed)
 
 // Output: [Range(1..<128), Range(256..<512), Range(1024..<4096)]
 print(result)
 ```
+
+> Parameter Explanation:
+> `sign`: Determines whether to preserve the original sign when extracting an integer from a lower-width type (e.g., extracting from `.bit16` to a 64-bit `Int`). `.signed` preserves the sign, while `.unsigned` always treats the value as unsigned. The default is `.unsigned`.
 
 ## Installation  
 
@@ -637,7 +640,7 @@ print(result)
 
 ```swift
 let rangeArr: [Range<Int>] = [
-    1..<128,
+    -128..<128,
     256..<512,
     1024..<4096
 ]
@@ -657,8 +660,8 @@ box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
 | 6 | 0x0 | | |
 | 7 | 0x0 |  | |
 | ... | 0x0 |  |未使用|
-| 100 | 0x1 | 1 |rangeArr[0] 的 lowerBound|
-| 101 | 0x0 |  | |
+| 100 | 0x80 | -128 |rangeArr[0] 的 lowerBound|
+| 101 | 0xFF |  | |
 | 102 | 0x80 | 128 |rangeArr[0] 的 upperBound|
 | 103 | 0x0 |  | |
 | 104 | 0x0 | 256 |rangeArr[1] 的 lowerBound|
@@ -673,11 +676,14 @@ box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
 
 ```swift
 // 通过索引取出 range 数组
-let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16)
+let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16, sign: .signed)
 
 // 输出：[Range(1..<128), Range(256..<512), Range(1024..<4096)]
 print(result)
 ```
+
+> 参数说明：  
+> `sign`：当从低宽度类型提取整数时（例如，从 `.bit16` 提取到 64 位的 `Int`），是否保留原符号。`.signed` 表示保留符号，`.unsigned` 表示始终视为无符号，默认值为 `.unsigned`。
 
 ## 安装  
 

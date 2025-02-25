@@ -105,7 +105,7 @@ final class DemoTests: XCTestCase {
         let box = BinaryStore.Box(bytes: &buf)
         
         let rangeArr: [Range<Int>] = [
-            1..<128,
+            -128..<128,
             256..<512,
             1024..<4096
         ]
@@ -114,7 +114,7 @@ final class DemoTests: XCTestCase {
         box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
         
         // 通过索引取出 range 数组
-        let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16)
+        let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16, sign: .signed)
 
         // 输出:
         pr(result)
