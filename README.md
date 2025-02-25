@@ -152,7 +152,7 @@ Now the bytes in `buf` are as follows (Little Endian):
 | 2 | 0x0 | | |
 | 3 | 0x0 | | |
 | ... | 0x0 | | Unused |
-| 100 | 0xC | 12 | String length (stored in 1 byte) |
+| 100 | 0xC | 12 | String byte count (stored in 1 byte) |
 | 101 | 0x48 | "H" | |
 | 102 | 0x65 | "e" | |
 | 103 | 0x6C | "l" | |
