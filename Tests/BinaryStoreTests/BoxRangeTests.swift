@@ -21,16 +21,16 @@ final class BoxRangeTests: XCTestCase {
             let result8: Range<Int8> = box.getRange(offset: off, rangeWidth: rangeWidth)
             XCTAssertEqual(result8, n..<m)
 
-            let result16: Range<Int16> = box.getRange(offset: off, rangeWidth: rangeWidth)
+            let result16: Range<Int16> = box.getRange(offset: off, rangeWidth: rangeWidth, sign: .signed)
             XCTAssertEqual(result16, Int16(truncatingIfNeeded: n)..<Int16(truncatingIfNeeded: m))
 
-            let result32: Range<Int32> = box.getRange(offset: off, rangeWidth: rangeWidth)
+            let result32: Range<Int32> = box.getRange(offset: off, rangeWidth: rangeWidth, sign: .signed)
             XCTAssertEqual(result32, Int32(truncatingIfNeeded: n)..<Int32(truncatingIfNeeded: m))
 
-            let result64: Range<Int64> = box.getRange(offset: off, rangeWidth: rangeWidth)
+            let result64: Range<Int64> = box.getRange(offset: off, rangeWidth: rangeWidth, sign: .signed)
             XCTAssertEqual(result64, Int64(truncatingIfNeeded: n)..<Int64(truncatingIfNeeded: m))
 
-            let result: Range<Int> = box.getRange(offset: off, rangeWidth: rangeWidth)
+            let result: Range<Int> = box.getRange(offset: off, rangeWidth: rangeWidth, sign: .signed)
             XCTAssertEqual(result, Int(truncatingIfNeeded: n)..<Int(truncatingIfNeeded: m))
         }
     }
@@ -83,13 +83,13 @@ final class BoxRangeTests: XCTestCase {
             let result16: Range<Int16> = box.getRange(offset: off, rangeWidth: rangeWidth)
             XCTAssertEqual(result16, n..<m)
             
-            let result32: Range<Int32> = box.getRange(offset: off, rangeWidth: rangeWidth)
+            let result32: Range<Int32> = box.getRange(offset: off, rangeWidth: rangeWidth, sign: .signed)
             XCTAssertEqual(result32, Int32(truncatingIfNeeded: n)..<Int32(truncatingIfNeeded: m))
             
-            let result64: Range<Int64> = box.getRange(offset: off, rangeWidth: rangeWidth)
+            let result64: Range<Int64> = box.getRange(offset: off, rangeWidth: rangeWidth, sign: .signed)
             XCTAssertEqual(result64, Int64(truncatingIfNeeded: n)..<Int64(truncatingIfNeeded: m))
             
-            let result: Range<Int> = box.getRange(offset: off, rangeWidth: rangeWidth)
+            let result: Range<Int> = box.getRange(offset: off, rangeWidth: rangeWidth, sign: .signed)
             XCTAssertEqual(result, Int(truncatingIfNeeded: n)..<Int(truncatingIfNeeded: m))
         }
     }
@@ -139,10 +139,10 @@ final class BoxRangeTests: XCTestCase {
             let result32: Range<Int32> = box.getRange(offset: off, rangeWidth: rangeWidth)
             XCTAssertEqual(result32, n..<m)
             
-            let result64: Range<Int64> = box.getRange(offset: off, rangeWidth: rangeWidth)
+            let result64: Range<Int64> = box.getRange(offset: off, rangeWidth: rangeWidth, sign: .signed)
             XCTAssertEqual(result64, Int64(truncatingIfNeeded: n)..<Int64(truncatingIfNeeded: m))
             
-            let result: Range<Int> = box.getRange(offset: off, rangeWidth: rangeWidth)
+            let result: Range<Int> = box.getRange(offset: off, rangeWidth: rangeWidth, sign: .signed)
             XCTAssertEqual(result, Int(truncatingIfNeeded: n)..<Int(truncatingIfNeeded: m))
         }
     }
