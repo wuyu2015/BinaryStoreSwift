@@ -73,13 +73,12 @@ let n4: Int = box.getInt(offset: 6, intWidth: .bit40)
 let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]
 
 // Store the array
-box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: .bit8)
+box.setIntArray(arr, index: 10, offset: 1024 * 64, intWidth: .bit8)
 ```
 
 > Parameter description:  
 > 1. `index`: Index address  
 > 2. `offset`: Data address  
-> 3. `arrayWidth`: Array length width  
 > 4. `intWidth`: Integer width  
 
 The bytes of `buf` are now as follows (Little Endian):  
@@ -108,19 +107,19 @@ The bytes of `buf` are now as follows (Little Endian):
 
 ```swift
 // Now, let's read the array using the index value
-let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, arrayWidth: .bit8, intWidth: .bit8)
+let result1: [Int] = box.getIntArray(index: 10, intWidth: .bit8, sign: .signed)
 
 // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
 print(result1)
 
 // Read with [UInt8], negative numbers will be converted to the corresponding unsigned values
-let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, arrayWidth: .bit8, intWidth: .bit8)
+let result2: [UInt8] = box.getIntArray(index: 10, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 print(result2)
 
 // Read with [UInt32], note that it has the same effect as [UInt8]
-let result3: [UInt32] = box.getIntArray(index: 10, offsetWidth: .bit32, arrayWidth: .bit8, intWidth: .bit8)
+let result3: [UInt32] = box.getIntArray(index: 10, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 print(result3)
@@ -429,7 +428,7 @@ let n4: Int = box.getInt(offset: 6, intWidth: .bit40)
 let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]  
 
 // 储存数组
-box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: .bit8)
+box.setIntArray(arr, index: 10, offset: 1024 * 64, intWidth: .bit8)
 ```
 
 > 参数说明：
@@ -463,19 +462,19 @@ box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: 
 
 ```swift
 // 现在，我们使用索引值读取数组
-let result1: [Int] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .bit8)
+let result1: [Int] = box.getIntArray(index: 10, intWidth: .bit8, sign: .signed)
 
 // 输出：[1, 2, 3, 4, -1, -2, -3, -4]  
 print(result1)
 
 // 用 [UInt8] 读取，负数会转为对应的无符号值
-let result2: [UInt8] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .bit8)
+let result2: [UInt8] = box.getIntArray(index: 10, intWidth: .bit8)
 
 // 输出：[1, 2, 3, 4, 255, 254, 253, 252]
 print(result2)
 
 // 用 [UInt32] 读取，注意它的效果和 [UInt8] 相同
-let result3: [UInt32] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .bit8)
+let result3: [UInt32] = box.getIntArray(index: 10, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, 255, 254, 253, 252]
 print(result3)

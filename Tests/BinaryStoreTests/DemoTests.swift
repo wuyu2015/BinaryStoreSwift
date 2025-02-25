@@ -28,17 +28,17 @@ final class DemoTests: XCTestCase {
         
         let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]
         
-        box.setIntArray(arr, index: 10, offset: 1024 * 64, offsetWidth: .bit32, byteWidth: .bit8, intWidth: .bit8)
+        box.setIntArray(arr, index: 10, offset: 1024 * 64, intWidth: .bit8)
         pr(box.count)
         pr(buf[(1024 * 64)..<box.count])
         
-        let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, byteWidth: .bit8, intWidth: .bit8)
+        let result1: [Int] = box.getIntArray(index: 10, intWidth: .bit8, sign: .signed)
         pr(result1)
         
-        let result2: [UInt8] = box.getIntArray(index: 10, offsetWidth: .bit32, byteWidth: .bit8, intWidth: .bit8)
+        let result2: [UInt8] = box.getIntArray(index: 10, intWidth: .bit8)
         pr(result2)
         
-        let result3: [UInt32] = box.getIntArray(index: 10, offsetWidth: .bit32, byteWidth: .bit8, intWidth: .bit8)
+        let result3: [UInt32] = box.getIntArray(index: 10, intWidth: .bit8)
         pr(result3)
     }
     
@@ -94,7 +94,7 @@ final class DemoTests: XCTestCase {
         box.setRange(range, offset: 0, rangeWidth: .bit16)
         
         // 直接通过偏移值（0）取出 range
-        let result: Range<Int> = box.getRange(offset: 0, rangeWidth: .bit16)
+        let result: Range<Int> = box.getRange(offset: 0, rangeWidth: .bit16, sign: .signed)
 
         // 输出:
         pr(result)
