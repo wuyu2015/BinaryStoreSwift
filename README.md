@@ -223,12 +223,12 @@ Now the bytes in `buf` are as follows (Little Endian):
 | 111 | 0x6C | "l" | |
 | 112 | 0x64 | "d" | |
 | 113 | 0x21 | "!" | |
-| 114 | 0x1 | 1 | Length of "a" (stored in 1 byte) |
+| 114 | 0x1 | 1 | Byte count of "a" (stored in 1 byte) |
 | 115 | 0x61 | "a" | |
-| 116 | 0x2 | 2 | Length of "ab" (stored in 1 byte) |
+| 116 | 0x2 | 2 | Byte count of "ab" (stored in 1 byte) |
 | 117 | 0x61 | "a" | |
 | 118 | 0x62 | "b" | |
-| 119 | 0x3 | 3 | Length of "abc" (stored in 1 byte) |
+| 119 | 0x3 | 3 | Byte count of "abc" (stored in 1 byte) |
 | 120 | 0x61 | "a" | |
 | 121 | 0x62 | "b" | |
 | 122 | 0x63 | "c" | |
@@ -574,12 +574,12 @@ box.setStringArray(arr, index: 0, offset: 100, offsetWidth: .bit16, byteWidth: .
 | 111 | 0x6C | "l" | |
 | 112 | 0x64 | "d" | |
 | 113 | 0x21 | "!" | |
-| 114 | 0x1 | 1 | "a" 长度（1 字节储存） |
+| 114 | 0x1 | 1 | "a" 字节数（1 字节储存） |
 | 115 | 0x61 | "a" | |
-| 116 | 0x2 | 2 | "ab" 长度（1 字节储存） |
+| 116 | 0x2 | 2 | "ab"  字节数（1 字节储存） |
 | 117 | 0x61 | "a" | |
 | 118 | 0x62 | "b" | |
-| 119 | 0x3 | 3 | "abc" 长度（1 字节储存） |
+| 119 | 0x3 | 3 | "abc"  字节数（1 字节储存） |
 | 120 | 0x61 | "a" | |
 | 121 | 0x62 | "b" | |
 | 122 | 0x63 | "c" | |
