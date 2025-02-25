@@ -463,13 +463,13 @@ box.setIntArray(arr, index: 10, offset: 1024 * 64, arrayWidth: .bit8, intWidth: 
 // 现在，我们使用索引值读取数组
 let result1: [Int] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .bit8)
 
-// Output: [1, 2, 3, 4, -1, -2, -3, -4]  
+// 输出：[1, 2, 3, 4, -1, -2, -3, -4]  
 print(result1)
 
 // 用 [UInt8] 读取，负数会转为对应的无符号值
 let result2: [UInt8] = box.getIntArray(index: 10, arrayWidth: .bit8, intWidth: .bit8)
 
-// Output: [1, 2, 3, 4, 255, 254, 253, 252]
+// 输出：[1, 2, 3, 4, 255, 254, 253, 252]
 print(result2)
 
 // 用 [UInt32] 读取，注意它的效果和 [UInt8] 相同，因为我们使用了 `.bit8` 标记
