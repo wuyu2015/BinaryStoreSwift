@@ -4,7 +4,7 @@
 
 When analyzing third-party binary data files, you may notice that gaps between data are filled with zero bytes. This is often caused by fixed-width integers (`FixedWidthInteger`), leading to significant space waste. To address this, `BinaryStore` supports not only standard 8-bit, 16-bit, 32-bit, and 64-bit integers but also non-standard 24-bit, 40-bit, 48-bit, and 56-bit integers. By leveraging these, you can reduce unnecessary zero bytes and optimize data size. 
 
-For applications where minimizing network data size is critical, consider using custom binary data instead of JSON strings. Besides compression algorithms, eliminating redundant data bits is also an important optimization strategy. Packing multiple values into a single byte further optimizes storage. At the language level, bitwise operators already provide the necessary tools for this. Once you have such an integer, you might need to store it in a file or transmit it over a network—this is where a 24-bit or 40-bit integer could come in handy.
+For applications where minimizing network data size is critical, consider using custom binary data instead of JSON strings. Besides compression algorithms, eliminating redundant data bits is also an important optimization strategy. Packing multiple values into a single integer further optimizes storage. At the language level, bitwise operators already provide the necessary tools for this. Once you have such an integer, you might need to store it in a file or transmit it over a network—this is where a 24-bit or 40-bit integer could come in handy.
 
 Additionally, `BinaryStore` maintains O(1) read/write efficiency, close to native array operations in performance.
 
