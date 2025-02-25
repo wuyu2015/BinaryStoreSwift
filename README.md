@@ -46,7 +46,6 @@ The bytes of `buf` are now as follows (Little Endian):
 
 | Address | Byte Value | Description |
 |-|-|-|
-|-|-|-|
 | 0 | 0x7B | 123 |
 | 1 | 0xFF | 65535 |
 | 2 | 0xFF | |
