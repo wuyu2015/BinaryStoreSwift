@@ -7,11 +7,11 @@ extension BinaryStore.Box {
     //   stringWidth: capacity of string
     //   [UInt8]: string data
     public func getString(offset: Int, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> String {
-        let sz: UInt64 = getInt(offset: offset, intWidth: stringWidth) // 如果使用 Int 取值可能得到负数！
+        let sz: Int = getInt(offset: offset, intWidth: stringWidth)
         if sz == 0 {
             return ""
         }
         let off = offset + stringWidth.rawValue
-        return String(bytes: p.pointee[off..<off + Int(sz)], encoding: encoding) ?? ""
+        return String(bytes: p.pointee[off..<off + sz], encoding: encoding) ?? ""
     }
 }

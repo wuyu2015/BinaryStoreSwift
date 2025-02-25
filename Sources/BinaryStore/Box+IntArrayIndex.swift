@@ -7,9 +7,9 @@ extension BinaryStore.Box {
     // data:
     //   [UInt8 with intWidth]
     public func getIntArray<T: FixedWidthInteger>(index i: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth, intWidth: BinaryStore.BitWidth) -> [T] {
-        let off: UInt64 = getInt(offset: i, intWidth: offsetWidth)
-        let sz: UInt64 = getInt(offset: i + offsetWidth.rawValue, intWidth: byteWidth)
-        return getIntArray(Int(off)..<Int(off) + Int(sz), intWidth: intWidth)
+        let off: Int = getInt(offset: i, intWidth: offsetWidth)
+        let sz: Int = getInt(offset: i + offsetWidth.rawValue, intWidth: byteWidth)
+        return getIntArray(off..<off + sz, intWidth: intWidth)
     }
     
     /// Set Array At Index

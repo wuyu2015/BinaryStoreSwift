@@ -10,8 +10,8 @@ extension BinaryStore.Box {
     //   stringWidth: capacity of string
     //   [UInt8]: string data
     public func getString(index: Int, offsetWidth: BinaryStore.BitWidth = .bit32, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> String {
-        let off: UInt64 = getInt(offset: index, intWidth: offsetWidth)
-        return getString(offset: Int(off), stringWidth: stringWidth, encoding: encoding)
+        let off: Int = getInt(offset: index, intWidth: offsetWidth)
+        return getString(offset: off, stringWidth: stringWidth, encoding: encoding)
     }
 
     // MARK: Set String At Index
