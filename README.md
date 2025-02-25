@@ -4,7 +4,7 @@
 
 When analyzing third-party binary data files, you may notice that gaps between data are filled with zero bytes. This is often caused by fixed-width integers (`FixedWidthInteger`), leading to significant space waste. To address this, `BinaryStore` supports not only standard 8-bit, 16-bit, 32-bit, and 64-bit integers but also non-standard 24-bit, 40-bit, 48-bit, and 56-bit integers. By leveraging these, you can reduce unnecessary zero bytes and optimize data size. 
 
-For applications where minimizing network data size is critical, consider using custom binary data instead of JSON strings. Besides compression algorithms, eliminating redundant data bits is also an important optimization strategy. Packing multiple values into a single integer further optimizes storage. At the language level, bitwise operators already provide the necessary tools for this. Once you have such an integer, you might need to store it in a file or transmit it over a network—this is where a 24-bit or 40-bit integer could come in handy.
+For applications where minimizing network data size is critical, consider using custom binary data instead of JSON strings. Besides compression algorithms, eliminating redundant data bits is also an important optimization strategy. Packing multiple values into a single integer can also further optimize storage. At the language level, bitwise operators already provide the necessary tools for this. Once you have such an integer, you might need to store it in a file or transmit it over a network—this is where a 24-bit or 40-bit integer could come in handy.
 
 Additionally, `BinaryStore` maintains O(1) read/write efficiency, close to native array operations in performance.
 
@@ -107,7 +107,7 @@ The bytes of `buf` are now as follows (Little Endian):
 
 
 ```swift
-// Now, we read the array using the index value
+// Now, let's read the array using the index value
 let result1: [Int] = box.getIntArray(index: 10, offsetWidth: .bit32, arrayWidth: .bit8, intWidth: .bit8)
 
 // Output: [1, 2, 3, 4, -1, -2, -3, -4]  
@@ -210,7 +210,7 @@ Now the bytes in `buf` are as follows (Little Endian):
 | 8 | 0x0 | | |
 | ... | 0x0 | | Unused |
 | 100 | 0x4 | 4 | Array length (stored in 1 byte) |
-| 101 | 0xC | 12 | Length of "Hello world!" (stored in 1 byte) |
+| 101 | 0xC | 12 | Byte count of "Hello world!" (stored in 1 byte) |
 | 102 | 0x48 | "H" | |
 | 103 | 0x65 | "e" | |
 | 104 | 0x6C | "l" | |
@@ -305,7 +305,7 @@ box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
 | 6 | 0x0 | | |
 | 7 | 0x0 | | |
 | ... | 0x0 | | Unused |
-| 100 | 0x0 | 0 | `rangeArr[0]` lowerBound |
+| 100 | 0x1 | 1 | `rangeArr[0]` lowerBound |
 | 101 | 0x0 | | |
 | 102 | 0x80 | 128 | `rangeArr[0]` upperBound |
 | 103 | 0x0 | | |
@@ -357,11 +357,11 @@ This project is licensed under the MIT License.
 
 如果你有研究别人的二进制数据文件，可能会注意到数据之间的空隙被填充了大量 0 值冗余数据位，这通常是由固定宽度整形 （FixedWidthInteger）引起的，导致了显著的空间浪费。为了解决这个问题，除了标准的 8 位、16 位、32 位、64 位整型之外，`BinaryStore` 还支持 24 位、40 位、48 位和 56 位的非主流整型。如果你善用它们，可以减少不必要的 0 值，从而优化数据大小。
 
-对于那些对网络数据大小有严格要求的应用，考虑使用自定义的二进制数据替代 JSON 字符串。除压缩算法外，消除冗余数据位也是一个重要的优化策略。将多个值打包进一个整数可以进一步优化存储（在语言层面，位操作符已经提供了必要的工具来实现这一点），在你得到那样的一个整数后，你可能需要将其存储到文件或通过网络传输，也许这时候你需要一个24 位 或 40 位的整型。
+对于那些对网络数据大小有严格要求的应用，考虑使用自定义的二进制数据替代 JSON 字符串。除压缩算法外，消除冗余数据位也是一个重要的优化策略。将多个值打包进一个整数也可以进一步优化存储（在语言层面，位操作符已经提供了必要的工具来实现这一点），在你得到那样的一个整数后，你可能需要将其存储到文件或通过网络传输，也许这时候你需要一个24 位 或 40 位的整型。
 
 此外，`BinaryStore` 保持 O(1) 的读写效率，性能接近原生数组操作。
 
-以下代码示例演示了将 `Int`、`Int` 数组、`String`、`String` 数组、`Range` 和 `Range` 数组存储为二进制的简单案例。在实际的应用场景中，这些数据类型通常是混合存储的，并对应于 Swift 的一个 `Struct`。这样的代码需要你自己来完成。在源代码中，虽然有支持 plist 存储的函数，但使用 plist 来支持二进制存储并不是 `BinaryStore` 的最终目标，因此在演示代码中没有提供。浮点数的支持目前尚未实现，但可能会在未来版本中添加。
+以下代码示例演示了将 `Int`、`Int` 数组、`String`、`String` 数组、`Range` 和 `Range` 数组存储为二进制的简单案例。在实际的应用场景中，这些数据类型通常是混合存储的，并对应于 Swift 的一个 `Struct` ——这样的代码需要你自己来完成。在源代码中，虽然有支持 plist 存储的函数，但使用 plist 来支持二进制存储并不是 `BinaryStore` 的最终目标，因此在演示代码中没有提供。浮点数的支持目前尚未实现，但可能会在未来版本中添加。
 
 ## 快速开始  
 
@@ -561,7 +561,7 @@ box.setStringArray(arr, index: 0, offset: 100, offsetWidth: .bit16, byteWidth: .
 | 8 | 0x0 | | |
 | ... | 0x0 |  | 未使用 |
 | 100 | 0x4 | 4 | 数组长度（1 字节储存） |
-| 101 | 0xC | 12 | "Hello world!" 长度（1 字节储存） |
+| 101 | 0xC | 12 | "Hello world!" 字节数（1 字节储存） |
 | 102 | 0x48 | "H" | |
 | 103 | 0x65 | "e" | |
 | 104 | 0x6C | "l" | |
@@ -657,7 +657,7 @@ box.setRangeArray(rangeArr, index: 0, offset: 100, rangeWidth: .bit16)
 | 6 | 0x0 | | |
 | 7 | 0x0 |  | |
 | ... | 0x0 |  |未使用|
-| 100 | 0x0 | 0 |rangeArr[0] 的 lowerBound|
+| 100 | 0x1 | 1 |rangeArr[0] 的 lowerBound|
 | 101 | 0x0 |  | |
 | 102 | 0x80 | 128 |rangeArr[0] 的 upperBound|
 | 103 | 0x0 |  | |
