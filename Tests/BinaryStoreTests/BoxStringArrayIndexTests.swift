@@ -1,6 +1,5 @@
 import Foundation
 import XCTest
-import XCTestDelayPrinter
 @testable import BinaryStore
 
 final class BoxStringArrayIndexTests: XCTestCase {
@@ -27,7 +26,7 @@ final class BoxStringArrayIndexTests: XCTestCase {
             _ = box.setStringArray(arr, index: index, offset: off, offsetWidth: offsetWidth, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
             let result = box.getStringArray(index: index, offsetWidth: offsetWidth, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
             if result.isEmpty {
-                pr("offsetWidth=\(offsetWidth), stringWidth=\(stringWidth), arrayWidth=\(arrayWidth), encoding=\(encoding), index=\(index), indexSz=\(indexSz), off=\(off)")
+                print("offsetWidth=\(offsetWidth), stringWidth=\(stringWidth), arrayWidth=\(arrayWidth), encoding=\(encoding), index=\(index), indexSz=\(indexSz), off=\(off)")
             }
             XCTAssertEqual(result, arr)
         }

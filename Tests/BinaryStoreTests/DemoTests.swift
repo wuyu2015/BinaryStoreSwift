@@ -1,5 +1,4 @@
 import XCTest
-import XCTestDelayPrinter
 @testable import BinaryStore
 
 final class DemoTests: XCTestCase {
@@ -11,15 +10,15 @@ final class DemoTests: XCTestCase {
         box.setInt(65535, offset: 1, intWidth: .bit16)
         box.setInt(65536, offset: 3, intWidth: .bit24)
         box.setInt(13888888888, offset: 6, intWidth: .bit40)
-        pr(box.count)
-        pr(buf)
+        print(box.count)
+        print(buf)
         
         let n1: Int = box.getInt(offset: 0)
         let n2: UInt16 = box.getInt(offset: 1, intWidth: .bit16)
         let n3: UInt32 = box.getInt(offset: 3, intWidth: .bit24)
         let n4: Int = box.getInt(offset: 6, intWidth: .bit40)
         
-        pr(n1, n2, n3, n4)
+        print(n1, n2, n3, n4)
     }
     
     func testDemoIntArray() {
@@ -29,17 +28,17 @@ final class DemoTests: XCTestCase {
         let arr: [Int8] = [1, 2, 3, 4, -1, -2, -3, -4]
         
         box.setIntArray(arr, index: 10, offset: 1024 * 64, intWidth: .bit8)
-        pr(box.count)
-        pr(buf[(1024 * 64)..<box.count])
+        print(box.count)
+        print(buf[(1024 * 64)..<box.count])
         
         let result1: [Int] = box.getIntArray(index: 10, intWidth: .bit8, sign: .signed)
-        pr(result1)
+        print(result1)
         
         let result2: [UInt8] = box.getIntArray(index: 10, intWidth: .bit8)
-        pr(result2)
+        print(result2)
         
         let result3: [UInt32] = box.getIntArray(index: 10, intWidth: .bit8)
-        pr(result3)
+        print(result3)
     }
     
     func testDemoString() {
@@ -50,16 +49,16 @@ final class DemoTests: XCTestCase {
         
         box.setString(s, index: 0, offset: 100)
         
-        pr(buf)
+        print(buf)
         
         let sz: Int = box.getInt(offset: 100)
-        pr(sz)
+        print(sz)
         
         let s1 = box.getString(index: 0)
-        pr(s1)
+        print(s1)
         
         let s2 = box.getString(offset: 100)
-        pr(s2)
+        print(s2)
     }
     
     func testDemoStringArray() {
@@ -75,13 +74,13 @@ final class DemoTests: XCTestCase {
         let result1 = box.getStringArray(index: 0, offsetWidth: .bit16, byteWidth: .bit16, arrayWidth: .bit8)
 
         // 输出：["Hello world!", "a", "ab", "abc"]
-        pr(result1)
+        print(result1)
 
         // 或直接通过地址（100）取出字符串数组
         let result2 = box.getStringArray(offset: 100, arrayWidth: .bit8)
 
         // 输出：["Hello world!", "a", "ab", "abc"]
-        pr(result2)
+        print(result2)
     }
     
     func testRange() {
@@ -97,7 +96,7 @@ final class DemoTests: XCTestCase {
         let result: Range<Int> = box.getRange(offset: 0, rangeWidth: .bit16, sign: .signed)
 
         // 输出:
-        pr(result)
+        print(result)
     }
     
     func testRangeArray() {
@@ -117,6 +116,6 @@ final class DemoTests: XCTestCase {
         let result: [Range<Int>] = box.getRangeArray(index: 0, rangeWidth: .bit16, sign: .signed)
 
         // 输出:
-        pr(result)
+        print(result)
     }
 }

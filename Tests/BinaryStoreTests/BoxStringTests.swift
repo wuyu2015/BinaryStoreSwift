@@ -1,6 +1,5 @@
 import Foundation
 import XCTest
-import XCTestDelayPrinter
 @testable import BinaryStore
 
 final class BoxStringTests: XCTestCase {

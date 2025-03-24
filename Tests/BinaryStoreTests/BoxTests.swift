@@ -1,5 +1,4 @@
 import XCTest
-import XCTestDelayPrinter
 @testable import BinaryStore
 
 final class BoxTests: XCTestCase {
@@ -9,13 +8,13 @@ final class BoxTests: XCTestCase {
         
         box[0] = 100
         XCTAssertEqual(arr, box.p.pointee)
-        pr(arr)
-        pr(box.p.pointee)
+        print(arr)
+        print(box.p.pointee)
         
         arr[1] = 200
         XCTAssertEqual(arr, box.p.pointee)
-        pr(arr)
-        pr(box.p.pointee)
+        print(arr)
+        print(box.p.pointee)
     }
     
     func testInit2() {
@@ -24,12 +23,12 @@ final class BoxTests: XCTestCase {
         
         box[0] = 100
         XCTAssertEqual(data, box.p.pointee)
-        pr(data.withUnsafeBytes { Array($0) })
-        pr(box.p.pointee.withUnsafeBytes { Array($0) })
+        print(data.withUnsafeBytes { Array($0) })
+        print(box.p.pointee.withUnsafeBytes { Array($0) })
         
         data[1] = 200
         XCTAssertEqual(data, box.p.pointee)
-        pr(data.withUnsafeBytes { Array($0) })
-        pr(box.p.pointee.withUnsafeBytes { Array($0) })
+        print(data.withUnsafeBytes { Array($0) })
+        print(box.p.pointee.withUnsafeBytes { Array($0) })
     }
 }
