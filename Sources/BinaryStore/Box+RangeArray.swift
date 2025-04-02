@@ -21,7 +21,7 @@ extension BinaryStore.Box {
     //   ...
     // return: byte size of the range<T> array
     @discardableResult
-    func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32, rangeWidth: BinaryStore.BitWidth) -> Int {
+    public func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32, rangeWidth: BinaryStore.BitWidth) -> Int {
         // set range array at offset
         let sz = setRangeArray(rangeArr, offset: offset, rangeWidth: rangeWidth)
         // set offset in head

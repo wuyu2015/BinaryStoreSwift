@@ -8,7 +8,7 @@ extension BinaryStore.Box {
     //   ...
     //   ...
     // return: byte size of the range<T> array
-    func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], offset: Int, rangeWidth: BinaryStore.BitWidth) -> Int {
+    public func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], offset: Int, rangeWidth: BinaryStore.BitWidth) -> Int {
         if rangeArr.isEmpty {
             return 0
         }
