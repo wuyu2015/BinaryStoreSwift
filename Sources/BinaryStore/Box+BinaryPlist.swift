@@ -1,3 +1,5 @@
+import Foundation
+
 extension BinaryStore.Box {
     
     
@@ -39,5 +41,29 @@ extension BinaryStore.Box {
         setInt(UInt32(sz), offset: index + offsetWidth.rawValue, intWidth: byteWidth)
         // return the binary plist byte size
         return sz
+    }
+    
+    // MARK: Get Binary Plist At Offset
+    
+    // data:
+    //   [UInt8]: binary plist data
+    public func getBinaryPlist<T: Decodable>(_ type: T.Type, offset: Int, count: Int) throws -> T {
+        let decoder = PropertyListDecoder.init()
+        var format = PropertyListSerialization.PropertyListFormat.binary
+        let data = Data(bytesNoCopy: p.advanced(by: offset), count: count, deallocator: .none)
+        return try decoder.decode(type, from: data, format: &format)
+    }
+    
+    // MARK: Get Binary Plist At Index
+    
+    // head:
+    //   offsetWidth: offset
+    //   byteWidth: size
+    // data:
+    //   [UInt8]: binary plist data
+    public func getBinaryPlist<T: Decodable>(_ type: T.Type, index: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32) throws -> T {
+        let offset: Int = getInt(offset: index, intWidth: offsetWidth, sign: .unsigned)
+        let count: Int = getInt(offset: index, intWidth: byteWidth, sign: .unsigned)
+        return try getBinaryPlist(type, offset: offset, count: count)
     }
 }
