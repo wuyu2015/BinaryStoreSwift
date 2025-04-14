@@ -66,4 +66,15 @@ extension BinaryStore.Box {
         let count: Int = getInt(offset: index, intWidth: byteWidth, sign: .unsigned)
         return try getBinaryPlist(type, offset: offset, count: count)
     }
+    
+    // MARK: To Binary Plist
+    
+    // data:
+    //   [UInt8]: binary plist data
+    public func toBinaryPlist<T: Decodable>(_ type: T.Type) throws -> T {
+        let decoder = PropertyListDecoder.init()
+        var format = PropertyListSerialization.PropertyListFormat.binary
+        let data = Data(bytesNoCopy: p, count: count, deallocator: .none)
+        return try decoder.decode(type, from: data, format: &format)
+    }
 }
