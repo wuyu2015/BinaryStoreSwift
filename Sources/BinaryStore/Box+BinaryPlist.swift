@@ -32,7 +32,7 @@ extension BinaryStore.Box {
     // data:
     //   [UInt8]: binary plist data
     // return: binary plist byte size
-    public func setBinaryPlist<T: Encodable>(_ value: T, index: Int, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth) throws -> Int {
+    public func setBinaryPlist<T: Encodable>(_ value: T, index: Int, offset: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth) throws -> Int {
         // set binary plist at offset
         let sz = try setBinaryPlist(value, offset: offset)
         // set offset in head
@@ -61,7 +61,7 @@ extension BinaryStore.Box {
     //   byteWidth: size
     // data:
     //   [UInt8]: binary plist data
-    public func getBinaryPlist<T: Decodable>(_ type: T.Type, index: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32) throws -> T {
+    public func getBinaryPlist<T: Decodable>(_ type: T.Type, index: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth) throws -> T {
         let offset: Int = getInt(offset: index, intWidth: offsetWidth, sign: .unsigned)
         let count: Int = getInt(offset: index, intWidth: byteWidth, sign: .unsigned)
         return try getBinaryPlist(type, offset: offset, count: count)

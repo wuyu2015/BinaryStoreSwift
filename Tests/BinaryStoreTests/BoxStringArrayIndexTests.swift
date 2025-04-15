@@ -22,9 +22,10 @@ final class BoxStringArrayIndexTests: XCTestCase {
             for _ in 0..<20 {
                 arr.append(randomString(maxBytes: Int.random(in: 0..<128)))
             }
-
-            _ = box.setStringArray(arr, index: index, offset: off, offsetWidth: offsetWidth, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
-            let result = box.getStringArray(index: index, offsetWidth: offsetWidth, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
+            
+            _ = box.setStringArray(arr, index: index, offset: off, offsetWidth: offsetWidth, byteWidth: .bit32, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding, withArrayIndex: false)
+            
+            let result = box.getStringArray(index: index, offsetWidth: offsetWidth, byteWidth: .bit32, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
             if result.isEmpty {
                 print("offsetWidth=\(offsetWidth), stringWidth=\(stringWidth), arrayWidth=\(arrayWidth), encoding=\(encoding), index=\(index), indexSz=\(indexSz), off=\(off)")
             }

@@ -7,7 +7,7 @@ extension BinaryStore.Box {
     //   stringWidth: capacity of string
     //   [UInt8]: string data
     // return: total byte size
-    public func setString(_ s: String, offset: Int, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> Int {
+    public func setString(_ s: String, offset: Int, stringWidth: BinaryStore.BitWidth, encoding: String.Encoding) -> Int {
         var off = offset + stringWidth.rawValue
         if encoding == .utf16 {
             let codes = s.utf16

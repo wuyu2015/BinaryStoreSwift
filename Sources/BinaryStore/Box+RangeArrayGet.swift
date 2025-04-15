@@ -6,7 +6,7 @@ extension BinaryStore.Box {
     //   rangeWidth: upper
     //   ...
     //   ...
-    public func getRangeArray<T: FixedWidthInteger>(_ range: Range<Int>, rangeWidth: BinaryStore.BitWidth, sign: BinaryStore.Sign = .unsigned) -> [Range<T>] {
+    public func getRangeArray<T: FixedWidthInteger>(_ range: Range<Int>, rangeWidth: BinaryStore.BitWidth, sign: BinaryStore.Sign) -> [Range<T>] {
         switch rangeWidth {
         case .bit8:
             return stride(from: range.lowerBound, to: range.upperBound, by: 2).map { i in

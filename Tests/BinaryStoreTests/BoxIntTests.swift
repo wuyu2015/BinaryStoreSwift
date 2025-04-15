@@ -14,29 +14,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, n)
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, n1)
             
             let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .signed)
             XCTAssertEqual(result16, Int16(truncatingIfNeeded: n))
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, UInt16(n1))
             
             let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .signed)
             XCTAssertEqual(result32, Int32(truncatingIfNeeded: n))
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, UInt32(n1))
             
             let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .signed)
             XCTAssertEqual(result64, Int64(truncatingIfNeeded: n))
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, UInt64(n1))
             
             let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .signed)
             XCTAssertEqual(result, Int(truncatingIfNeeded: n))
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, UInt(n1))
         }
     }
@@ -52,29 +52,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, n1)
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, n)
             
-            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16, Int16(n))
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, UInt16(n))
             
-            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32, Int32(n))
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, UInt32(n))
             
-            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64, Int64(n))
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, UInt64(n))
             
-            let result: Int = box.getInt(offset: off, intWidth: intWidth)
+            let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result, Int(n))
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, UInt(n))
         }
     }
@@ -90,29 +90,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, Int8(truncatingIfNeeded: n))
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, UInt8(truncatingIfNeeded: n))
             
-            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16, n)
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, n1)
             
             let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .signed)
             XCTAssertEqual(result32, Int32(n))
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, UInt32(n1))
             
             let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .signed)
             XCTAssertEqual(result64, Int64(n))
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, UInt64(n1))
             
             let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .signed)
             XCTAssertEqual(result, Int(n))
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, UInt(n1))
         }
     }
@@ -128,29 +128,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, Int8(truncatingIfNeeded: n1))
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, UInt8(truncatingIfNeeded: n))
             
-            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16, n1)
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, n)
             
-            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32, Int32(n))
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, UInt32(n))
             
-            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64, Int64(n))
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, UInt64(n))
             
-            let result: Int = box.getInt(offset: off, intWidth: intWidth)
+            let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result, Int(n))
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, UInt(n))
         }
     }
@@ -166,29 +166,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, Int8(truncatingIfNeeded: n))
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, UInt8(truncatingIfNeeded: n))
             
-            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16, Int16(truncatingIfNeeded: n))
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, UInt16(truncatingIfNeeded: n1))
             
-            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32, n)
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, n1)
             
             let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .signed)
             XCTAssertEqual(result64, Int64(n))
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, UInt64(n1))
             
             let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .signed)
             XCTAssertEqual(result, Int(n))
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, UInt(n1))
         }
     }
@@ -204,29 +204,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, Int8(truncatingIfNeeded: n1))
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, UInt8(truncatingIfNeeded: n))
             
-            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16, Int16(truncatingIfNeeded: n1))
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, UInt16(truncatingIfNeeded: n))
             
-            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32, n1)
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, n)
             
-            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64, Int64(n))
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, UInt64(n))
             
-            let result: Int = box.getInt(offset: off, intWidth: intWidth)
+            let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result, Int(n))
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, UInt(n))
         }
     }
@@ -242,29 +242,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, Int8(truncatingIfNeeded: n))
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, UInt8(truncatingIfNeeded: n))
             
-            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16, Int16(truncatingIfNeeded: n))
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, UInt16(truncatingIfNeeded: n1))
             
-            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32, Int32(truncatingIfNeeded: n))
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, UInt32(truncatingIfNeeded: n1))
             
-            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64, n)
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, n1)
             
-            let result: Int = box.getInt(offset: off, intWidth: intWidth)
+            let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result, Int(truncatingIfNeeded: n))
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, UInt(n1))
         }
     }
@@ -280,29 +280,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, Int8(truncatingIfNeeded: n1))
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, UInt8(truncatingIfNeeded: n))
             
-            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16, Int16(truncatingIfNeeded: n1))
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, UInt16(truncatingIfNeeded: n))
             
-            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32, Int32(truncatingIfNeeded: n1))
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, UInt32(truncatingIfNeeded: n))
             
-            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64, n1)
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, n)
             
-            let result: Int = box.getInt(offset: off, intWidth: intWidth)
+            let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result, Int(n1))
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, UInt(n))
         }
     }
@@ -318,29 +318,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, Int8(truncatingIfNeeded: n))
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, UInt8(truncatingIfNeeded: n))
             
-            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16, Int16(truncatingIfNeeded: n))
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, UInt16(truncatingIfNeeded: n1))
             
-            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32, Int32(truncatingIfNeeded: n))
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, UInt32(truncatingIfNeeded: n1))
             
-            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64, Int64(truncatingIfNeeded: n))
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, UInt64(truncatingIfNeeded: n1))
             
-            let result: Int = box.getInt(offset: off, intWidth: intWidth)
+            let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result, n)
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, n1)
         }
     }
@@ -356,29 +356,29 @@ final class BoxIntTests: XCTestCase {
             let off = Int.random(in: 0...100)
             box.setInt(n, offset: off, intWidth: intWidth)
             
-            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8: Int8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8, Int8(truncatingIfNeeded: n1))
-            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth)
+            let result8u: UInt8 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result8u, UInt8(truncatingIfNeeded: n))
             
-            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16: Int16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16, Int16(truncatingIfNeeded: n1))
-            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth)
+            let result16u: UInt16 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result16u, UInt16(truncatingIfNeeded: n))
             
-            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32: Int32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32, Int32(truncatingIfNeeded: n1))
-            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth)
+            let result32u: UInt32 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result32u, UInt32(truncatingIfNeeded: n))
             
-            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64: Int64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64, Int64(n1))
-            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth)
+            let result64u: UInt64 = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result64u, UInt64(n))
             
-            let result: Int = box.getInt(offset: off, intWidth: intWidth)
+            let result: Int = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(result, n1)
-            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth)
+            let resultu: UInt = box.getInt(offset: off, intWidth: intWidth, sign: .unsigned)
             XCTAssertEqual(resultu, n)
         }
     }

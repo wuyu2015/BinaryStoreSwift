@@ -7,12 +7,12 @@ extension BinaryStore.Box {
     // header:
     //   offsetWidth: offset
     //   byteWidth: count of data bytes
-    public func getStringArray(index: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth = .bit32, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [String] {
-        let sz: Int = getInt(offset: index + offsetWidth.rawValue, intWidth: byteWidth)
+    public func getStringArray(index: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth, encoding: String.Encoding) -> [String] {
+        let sz: Int = getInt(offset: index + offsetWidth.rawValue, intWidth: byteWidth, sign: .unsigned)
         if sz == 0 {
             return []
         }
-        let off: Int = getInt(offset: index, intWidth: offsetWidth)
+        let off: Int = getInt(offset: index, intWidth: offsetWidth, sign: .unsigned)
         return getStringArray(offset: off, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
     }
     
@@ -35,7 +35,7 @@ extension BinaryStore.Box {
     // data 2:
     //   [offsetWidth] offsets
     @discardableResult
-    public func setStringArray(_ strArr: [String], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8, withArrayIndex: Bool = false) -> Int {
+    public func setStringArray(_ strArr: [String], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth, encoding: String.Encoding, withArrayIndex: Bool) -> Int {
         // set string array at offset
         let offsets = setStringArray(strArr, offset: offset, offset0: index0, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
         let sz1 = offsets.isEmpty ? 0 : Int(offsets.last!) + index0 - offset
@@ -61,7 +61,7 @@ extension BinaryStore.Box {
     //   [UInt8]: string data
     //   ...
     //   ...
-    public func toStringArray(arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [String] {
+    public func toStringArray(arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth, encoding: String.Encoding) -> [String] {
         return getStringArray(offset: 0, arrayWidth: arrayWidth, stringWidth: stringWidth, encoding: encoding)
     }
 }

@@ -5,9 +5,9 @@ extension BinaryStore.Box {
     // head:
     //   offsetWidth: offset
     //   byteWidth: count of data bytes
-    public func getRangeArray<T: FixedWidthInteger>(index i: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32, rangeWidth: BinaryStore.BitWidth, sign: BinaryStore.Sign = .unsigned) -> [Range<T>] {
-        let off: Int = getInt(offset: i, intWidth: offsetWidth)
-        let sz: Int = getInt(offset: i + offsetWidth.rawValue, intWidth: byteWidth)
+    public func getRangeArray<T: FixedWidthInteger>(index i: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth, rangeWidth: BinaryStore.BitWidth, sign: BinaryStore.Sign) -> [Range<T>] {
+        let off: Int = getInt(offset: i, intWidth: offsetWidth, sign: .unsigned)
+        let sz: Int = getInt(offset: i + offsetWidth.rawValue, intWidth: byteWidth, sign: .unsigned)
         return getRangeArray(off..<off + sz, rangeWidth: rangeWidth, sign: sign)
     }
     
@@ -21,7 +21,7 @@ extension BinaryStore.Box {
     //   ...
     // return: byte size of the range<T> array
     @discardableResult
-    public func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, byteWidth: BinaryStore.BitWidth = .bit32, rangeWidth: BinaryStore.BitWidth) -> Int {
+    public func setRangeArray<T: FixedWidthInteger>(_ rangeArr: [Range<T>], index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth, byteWidth: BinaryStore.BitWidth, rangeWidth: BinaryStore.BitWidth) -> Int {
         // set range array at offset
         let sz = setRangeArray(rangeArr, offset: offset, rangeWidth: rangeWidth)
         // set offset in head
@@ -42,7 +42,7 @@ extension BinaryStore.Box {
     //   rangeWidth: upper
     //   ...
     //   ...
-    public func toRangeArray<T: FixedWidthInteger>(rangeWidth: BinaryStore.BitWidth, sign: BinaryStore.Sign = .unsigned) -> [Range<T>] {
+    public func toRangeArray<T: FixedWidthInteger>(rangeWidth: BinaryStore.BitWidth, sign: BinaryStore.Sign) -> [Range<T>] {
         return getRangeArray(0..<p.pointee.count, rangeWidth: rangeWidth, sign: sign)
     }
 }

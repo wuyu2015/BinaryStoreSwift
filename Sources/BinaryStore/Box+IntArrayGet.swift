@@ -3,7 +3,7 @@ extension BinaryStore.Box {
     /// Get Array From Range
     // data:
     //   [UInt with bitWidth]
-    public func getIntArray<T: FixedWidthInteger>(_ range: Range<Int>, intWidth: BinaryStore.BitWidth, sign: BinaryStore.Sign = .unsigned) -> [T] {
+    public func getIntArray<T: FixedWidthInteger>(_ range: Range<Int>, intWidth: BinaryStore.BitWidth, sign: BinaryStore.Sign) -> [T] {
         
         switch T.bitWidth {
         case 8:

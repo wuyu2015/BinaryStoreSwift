@@ -6,8 +6,8 @@ extension BinaryStore.Box {
     // data:
     //   stringWidth: capacity of string
     //   [UInt8]: string data
-    public func getString(offset: Int, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> String {
-        let sz: Int = getInt(offset: offset, intWidth: stringWidth)
+    public func getString(offset: Int, stringWidth: BinaryStore.BitWidth, encoding: String.Encoding) -> String {
+        let sz: Int = getInt(offset: offset, intWidth: stringWidth, sign: .unsigned)
         if sz == 0 {
             return ""
         }

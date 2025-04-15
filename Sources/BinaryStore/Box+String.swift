@@ -9,8 +9,8 @@ extension BinaryStore.Box {
     // data:
     //   stringWidth: capacity of string
     //   [UInt8]: string data
-    public func getString(index: Int, offsetWidth: BinaryStore.BitWidth = .bit32, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> String {
-        let off: Int = getInt(offset: index, intWidth: offsetWidth)
+    public func getString(index: Int, offsetWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth, encoding: String.Encoding) -> String {
+        let off: Int = getInt(offset: index, intWidth: offsetWidth, sign: .unsigned)
         return getString(offset: off, stringWidth: stringWidth, encoding: encoding)
     }
 
@@ -23,7 +23,7 @@ extension BinaryStore.Box {
     //   [UInt8]: string data
     // return: total byte size
     @discardableResult
-    public func setString(_ s: String, index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth = .bit32, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> Int {
+    public func setString(_ s: String, index: Int, index0: Int = 0, offset: Int, offsetWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth, encoding: String.Encoding) -> Int {
         // set string at offset
         let sz = setString(s, offset: offset, stringWidth: stringWidth, encoding: encoding)
         // set offset in head
@@ -37,7 +37,7 @@ extension BinaryStore.Box {
     // data:
     //   stringWidth: capacity of string
     //   [UInt8]: string data
-    public func toString(stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> String {
+    public func toString(stringWidth: BinaryStore.BitWidth, encoding: String.Encoding) -> String {
         return getString(offset: 0, stringWidth: stringWidth, encoding: encoding)
     }
 }

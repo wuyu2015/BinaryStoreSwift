@@ -23,7 +23,7 @@ final class BoxRangeArrayIndexTests: XCTestCase {
             let sz = box.setRangeArray(arr, index: index, offset: off, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt8: [Range<Int8>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt8: [Range<Int8>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt8, arr.map { $0.lowerBound..<$0.upperBound})
 
             let arrInt16: [Range<Int16>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .signed)
@@ -58,16 +58,16 @@ final class BoxRangeArrayIndexTests: XCTestCase {
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt8U: [Range<UInt8>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt8U: [Range<UInt8>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt8U, arr.map { $0.lowerBound..<$0.upperBound})
             
-            let arrInt16U: [Range<UInt16>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt16U: [Range<UInt16>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt16U, arr.map { UInt16($0.lowerBound)..<UInt16($0.upperBound)})
             
-            let arrInt32U: [Range<UInt32>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt32U: [Range<UInt32>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt32U, arr.map { UInt32($0.lowerBound)..<UInt32($0.upperBound)})
             
-            let arrInt64U: [Range<UInt64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt64U: [Range<UInt64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt64U, arr.map { UInt64($0.lowerBound)..<UInt64($0.upperBound)})
         }
     }
@@ -125,13 +125,13 @@ final class BoxRangeArrayIndexTests: XCTestCase {
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt16U: [Range<UInt16>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt16U: [Range<UInt16>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt16U, arr.map { $0.lowerBound..<$0.upperBound})
             
-            let arrInt32U: [Range<UInt32>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt32U: [Range<UInt32>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt32U, arr.map { UInt32($0.lowerBound)..<UInt32($0.upperBound)})
             
-            let arrInt64U: [Range<UInt64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt64U: [Range<UInt64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt64U, arr.map { UInt64($0.lowerBound)..<UInt64($0.upperBound)})
         }
     }
@@ -157,7 +157,7 @@ final class BoxRangeArrayIndexTests: XCTestCase {
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt32: [Range<Int32>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt32: [Range<Int32>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt32, arr.map { $0.lowerBound..<$0.upperBound})
             
             let arrInt64: [Range<Int64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .signed)
@@ -186,10 +186,10 @@ final class BoxRangeArrayIndexTests: XCTestCase {
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt32U: [Range<UInt32>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt32U: [Range<UInt32>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt32U, arr.map { $0.lowerBound..<$0.upperBound})
             
-            let arrInt64U: [Range<UInt64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt64U: [Range<UInt64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt64U, arr.map { UInt64($0.lowerBound)..<UInt64($0.upperBound)})
         }
     }
@@ -215,7 +215,7 @@ final class BoxRangeArrayIndexTests: XCTestCase {
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt64: [Range<Int64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt64: [Range<Int64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt64, arr.map { $0.lowerBound..<$0.upperBound})
         }
     }
@@ -241,7 +241,7 @@ final class BoxRangeArrayIndexTests: XCTestCase {
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             XCTAssertEqual(sz, arr.count * rangeWidth.rawValue * 2)
             
-            let arrInt64U: [Range<UInt64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth)
+            let arrInt64U: [Range<UInt64>] = box.getRangeArray(index: index, offsetWidth: offsetWidth, byteWidth: byteWidth, rangeWidth: rangeWidth, sign: .unsigned)
             XCTAssertEqual(arrInt64U, arr.map { $0.lowerBound..<$0.upperBound})
         }
     }

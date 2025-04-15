@@ -11,7 +11,7 @@ extension BinaryStore.Box {
     //   ...
     //   ...
     // return: byte size of the sum of data header bytes and string array bytes
-    public func setStringArray(_ strArr: [String], offset: Int, offset0: Int = 0, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth = .bit8, encoding: String.Encoding = .utf8) -> [Int] {
+    public func setStringArray(_ strArr: [String], offset: Int, offset0: Int = 0, arrayWidth: BinaryStore.BitWidth, stringWidth: BinaryStore.BitWidth, encoding: String.Encoding) -> [Int] {
         let len = strArr.count
         if len == 0 {
             return []
